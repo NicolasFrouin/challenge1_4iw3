@@ -35,9 +35,14 @@
 				</small>
 			{% endif %}
 
-			<button class="my-4 bg-blue-500 px-4 py-2 rounded w-fit self-end text-white text-xl" type="submit">
-				Se connecter
-			</button>
+			<div class="flex self-end gap-6">
+				<a href="{{ path('app_register') }}" class="my-4 bg-sky-500 px-4 py-2 rounded-lg w-fit text-white text-xl self-center">
+					Créer un compte
+				</a>
+				<button class="my-4 bg-blue-500 px-4 py-2 rounded-lg w-fit text-white text-xl" type="submit">
+					Se connecter
+				</button>
+			</div>
 		</form>
 	</section>
 {% endblock %}

@@ -21,28 +21,33 @@ class UserFixtures extends Fixture
 
         $user = (new User())
             ->setEmail("admin@app.com")
-            ->setRoles([User::ROLE_ADMIN]);
+            ->setRoles([User::ROLE_ADMIN])
+            ->setIsVerified(true);
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
         $manager->persist($user);
         $this->addReference('admin', $user);
 
         $user = (new User())
             ->setEmail("company@app.com")
-            ->setRoles([User::ROLE_COMPANY]);
+            ->setRoles([User::ROLE_COMPANY])
+            ->setIsVerified(true);
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
         $manager->persist($user);
         $this->addReference('company', $user);
 
         $user = (new User())
             ->setEmail("accountant@app.com")
-            ->setRoles([User::ROLE_ACCOUNTANT]);
+            ->setRoles([User::ROLE_ACCOUNTANT])
+            ->setIsVerified(true);
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
         $manager->persist($user);
         $this->addReference('accountant', $user);
 
-        for ($i = 0; $i < 10; $i++) {
-            $user = (new User())->setEmail($faker->email);
-            $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
+        for ($i = 0; $i < 15; $i++) {
+            $user = (new User())
+                ->setEmail($faker->email)
+                ->setPassword($this->passwordHasher->hashPassword($user, $pass))
+                ->setIsVerified($faker->boolean());
             $manager->persist($user);
         }
 
