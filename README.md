@@ -8,7 +8,7 @@ Follow these steps to set up the project locally:
 
 ### Prerequisites
 
--   [PHP](https://www.php.net/) >= 8.1
+-   [PHP](https://www.php.net/) >= 8.2
 -   [Composer](https://getcomposer.org/)
 -   [Node.js](https://nodejs.org/en)
 -   [NPM](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
