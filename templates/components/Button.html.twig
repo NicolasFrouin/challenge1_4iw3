@@ -1,0 +1,14 @@
+{% if href is defined %}
+	<a href="{{ href }}" class="flex">
+	{% endif %}
+	<button class="py-1 px-2 bg-blue-600 rounded-lg flex flex-row justify-center items-center gap-2 dark:text-white">
+		{% if icon is defined %}
+			<i class="fa fa-{{ icon }}"></i>
+		{% endif %}
+		{% if text is defined %}
+			<span>{{ text }}</span>
+		{% endif %}
+	</button>
+	{% if href is defined %}
+	</a>
+{% endif %}
