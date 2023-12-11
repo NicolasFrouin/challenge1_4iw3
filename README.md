@@ -6,12 +6,13 @@ ERP/CRM business management application
 
 Follow these steps to set up the project locally:
 
-### Prerequisites
+### Requirements
 
 -   [PHP](https://www.php.net/) >= 8.2
 -   [Composer](https://getcomposer.org/)
 -   [Node.js](https://nodejs.org/en)
 -   [NPM](https://www.npmjs.com/) or [Yarn](https://yarnpkg.com/)
+-   [Symfony CLI](https://symfony.com/download)
 
 ### Installation
 
