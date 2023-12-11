@@ -1,3 +1,25 @@
-<footer>
-    <p>test du footer</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Website</title>
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+</head>
+<body>
+
+<!-- Your website content here -->
+
+<footer class="bg-gray-800 text-darkBlue-500 py-4">
+    <div class="container mx-auto text-center">
+        <p>&copy; 2023 MyWebsite. All rights reserved.</p>
+    </div>
 </footer>
+
+</body>
+</html>
