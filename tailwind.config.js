@@ -18,7 +18,33 @@ module.exports = {
 					900: "#2a3a50",
 					950: "#1e293a",
 				  },
-				  yellow: {
+				darkGrey: {
+					50: '#f5f5f5',
+					100: '#f0f0f0',
+					200: '#d9d9d9',
+					300: '#bfbfbf',
+					400: '#969696',
+					500: '#737373',
+					600: '#525252',
+					700: '#404040',
+					800: '#262626',
+					900: '#1a1a1a',
+					950: '#000000',
+				  },
+				darkBrown: {
+					50: '#241b13',
+					100: '#392d1f',
+					200: '#4d3e2b',
+					300: '#64523c',
+					400: '#7e6a53',
+					500: '#958064',
+					600: '#ab9479',
+					700: '#c3aa90',
+					800: '#d8c3aa',
+					900: '#e8d6be',
+					950: '#faf5f0',
+				  },
+				yellow: {
 					50: '#fff9db',
 					100: '#fff3b1',
 					200: '#ffea7d',
@@ -31,7 +57,7 @@ module.exports = {
 					900: '#78350f',
 					950: '#572508',
 				  },
-				  rose: {
+				pink: {
 					50: '#fdf2f8',
 					100: '#fce8f3',
 					200: '#fad1e8',
@@ -44,7 +70,7 @@ module.exports = {
 					900: '#751a3d',
 					950: '#5e162e',
 				  },
-				  green: {
+				green: {
 					50: '#f0fdf4',
 					100: '#dcfce7',
 					200: '#bbf7d0',
@@ -57,7 +83,7 @@ module.exports = {
 					900: '#14532d',
 					950: '#0d3321',
 				  },
-				  red: {
+				red: {
 					50: '#fef2f2',
 					100: '#fee2e2',
 					200: '#fecaca',
@@ -70,7 +96,7 @@ module.exports = {
 					900: '#7f1d1d',
 					950: '#610404',
 				  },
-				  orange: {
+				orange: {
 					50: '#fff7ed',
 					100: '#ffedd5',
 					200: '#fed7aa',
@@ -83,7 +109,7 @@ module.exports = {
 					900: '#7c2d12',
 					950: '#621b18',
 				  },
-				  blue: {
+				blue: {
 					50: '#eff6ff',
 					100: '#dbeafe',
 					200: '#bfdbfe',
@@ -96,7 +122,7 @@ module.exports = {
 					900: '#1e3a8a',
 					950: '#191e38',
 				  },
-				  indigo: {
+				indigo: {
 					50: '#eef2ff',
 					100: '#e0e7ff',
 					200: '#c7d2fe',
@@ -109,7 +135,7 @@ module.exports = {
 					900: '#312e81',
 					950: '#1e1e3f',
 				  },
-				  violet: {
+				violet: {
 					50: '#f5f3ff',
 					100: '#ede9fe',
 					200: '#ddd6fe',
@@ -122,7 +148,7 @@ module.exports = {
 					900: '#4c1d95',
 					950: '#2d1d55',
 				  },
-				  gray: {
+				gray: {
 					50: '#f9fafb',
 					100: '#f4f5f7',
 					200: '#e5e7eb',
@@ -135,19 +161,27 @@ module.exports = {
 					900: '#111827',
 					950: '#0d1219',
 				  },
-				  blueLight: {
-					50: '#eff6ff',
-					100: '#dbeafe',
-					200: '#bfdbfe',
-					300: '#93c5fd',
-					400: '#60a5fa',
-					500: '#3b82f6',
-					600: '#2563eb',
-					700: '#1d4ed8',
-					800: '#1e40af',
-					900: '#1e3a8a',
-					950: '#191e38',
+				brown: {
+					50: '#faf5f0',
+					100: '#f3e8df',
+					200: '#e3cbb8',
+					300: '#d3ae91',
+					400: '#b98863',
+					500: '#9c6b45',
+					600: '#805737',
+					700: '#67432f',
+					800: '#51352a',
+					900: '#412b24',
+					950: '#241a15',
 				  },
+			  },
+			  fontSize: {
+				xxl: '1.5rem', // Exemple pour h1
+				xl: '1.25rem', // Exemple pour h2
+				lg: '1.125rem', // Exemple pour h3
+				base: '1rem', // Exemple pour le texte de base
+				sm: '0.875rem', // Exemple pour le texte plus petit
+				xs: '0.75rem', // Exemple pour le texte le plus petit
 			  },
 		},
 	},
