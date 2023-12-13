@@ -7,7 +7,7 @@
 				Bienvenue !
 			{% endblock %}
 		</title>
-		<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		<link rel="icon" href="{{ asset('build/images/icons/logo-small.png') }}">
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
@@ -30,7 +30,7 @@
 									</svg>
 								</button>
 								<a href="/" class="flex ms-2 md:me-24">
-									<img src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" class="h-8 me-3" alt="Logo"/>
+									<img src="{{ asset('build/images/icons/logo.png') }}" class="h-8 me-3" alt="Logo"/>
 									<span class="self-center text-xl font-semibold sm:text-2xl whitespace-nowrap dark:text-white">TailwindCSS</span>
 								</a>
 							</div>
