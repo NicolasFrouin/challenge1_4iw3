@@ -46,6 +46,9 @@ class Product
     private ?float $depth = null; // in cm
 
     #[ORM\Column]
+    private ?int $stock = 0;
+
+    #[ORM\Column]
     private ?bool $active = false;
 
     #[ORM\Column]
@@ -197,6 +200,18 @@ class Product
     public function setDepth(?float $depth): static
     {
         $this->depth = $depth;
+
+        return $this;
+    }
+
+    public function getStock(): ?int
+    {
+        return $this->stock;
+    }
+
+    public function setStock(int $stock): static
+    {
+        $this->stock = $stock;
 
         return $this;
     }

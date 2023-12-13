@@ -24,6 +24,7 @@ class ProductFixtures extends Fixture
                 ->setHeight($faker->randomFloat(2, 0, 10))
                 ->setWidth($faker->randomFloat(2, 0, 10))
                 ->setDepth($faker->randomFloat(2, 0, 10))
+                ->setStock($faker->numberBetween(0, 1_000))
                 ->setActive($faker->boolean());
             $manager->persist($product);
         }
