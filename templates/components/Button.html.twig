@@ -1,7 +1,7 @@
 {% if href is defined %}
-	<a href="{{ href }}" class="flex">
+	<a href="{{ href }}" class="flex w-fit">
 	{% endif %}
-	<button class="py-1 px-2 bg-blue-600 rounded-lg flex flex-row justify-center items-center gap-2 dark:text-white">
+	<button class="py-1 px-2 bg-blue-500 dark:bg-blue-600 rounded-lg flex flex-row justify-center items-center gap-2 text-white {{ class|default() }}">
 		{% if icon is defined %}
 			<i class="fa fa-{{ icon }}"></i>
 		{% endif %}

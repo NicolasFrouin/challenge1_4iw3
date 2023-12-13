@@ -1,0 +1,8 @@
+<thead class="text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">
+	<tr>
+		{% for col in columns|split(", ") %}
+			<twig:Table:Header
+			name="{{ col }}" alternate="{{ alternate|default(false) and loop.index % 2 == 0 }}"/>
+		{% endfor %}
+	</tr>
+</thead>
