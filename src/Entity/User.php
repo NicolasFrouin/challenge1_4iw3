@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,6 +33,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Product::class)]
+    private Collection $createdProducts;
+
+    #[ORM\OneToMany(mappedBy: 'modifiedBy', targetEntity: Product::class)]
+    private Collection $modifiedProducts;
+
+    public function __construct()
+    {
+        $this->createdProducts = new ArrayCollection();
+        $this->modifiedProducts = new ArrayCollection();
+    }
 
     final public const ROLE_ADMIN = "ROLE_ADMIN";
     final public const ROLE_COMPANY = "ROLE_COMPANY";
@@ -115,6 +129,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getCreatedProducts(): Collection
+    {
+        return $this->createdProducts;
+    }
+
+    public function addCreatedProduct(Product $createdProduct): static
+    {
+        if (!$this->createdProducts->contains($createdProduct)) {
+            $this->createdProducts->add($createdProduct);
+            $createdProduct->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCreatedProduct(Product $createdProduct): static
+    {
+        if ($this->createdProducts->removeElement($createdProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($createdProduct->getCreatedBy() === $this) {
+                $createdProduct->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getModifiedProducts(): Collection
+    {
+        return $this->modifiedProducts;
+    }
+
+    public function addModifiedProduct(Product $modifiedProduct): static
+    {
+        if (!$this->modifiedProducts->contains($modifiedProduct)) {
+            $this->modifiedProducts->add($modifiedProduct);
+            $modifiedProduct->setModifiedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeModifiedProduct(Product $modifiedProduct): static
+    {
+        if ($this->modifiedProducts->removeElement($modifiedProduct)) {
+            // set the owning side to null (unless already changed)
+            if ($modifiedProduct->getModifiedBy() === $this) {
+                $modifiedProduct->setModifiedBy(null);
+            }
+        }
 
         return $this;
     }

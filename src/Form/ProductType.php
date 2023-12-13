@@ -26,8 +26,7 @@ class ProductType extends AbstractType
             ->add('width', NumberType::class, ['label' => 'Largeur', 'attr' => ['placeholder' => 'Largeur du produit']])
             ->add('depth', NumberType::class, ['label' => 'Profondeur', 'attr' => ['placeholder' => 'Profondeur du produit']])
             ->add('stock', NumberType::class, ['label' => 'Stock', 'attr' => ['placeholder' => 'Stock du produit']])
-            ->add('active', CheckboxType::class, ['label' => 'Actif', 'attr' => ['placeholder' => 'Actif']])
-        ;
+            ->add('active', null, ['label' => 'Actif', 'attr' => ['placeholder' => 'Actif']]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

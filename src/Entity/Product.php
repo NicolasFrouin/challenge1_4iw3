@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\HasLifecycleCallbacks]
@@ -56,6 +57,12 @@ class Product
 
     #[ORM\Column]
     private ?\DateTimeImmutable $modifiedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'createdProducts')]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'modifiedProducts')]
+    private ?User $modifiedBy = null;
 
     public function __construct()
     {
@@ -248,6 +255,30 @@ class Product
     public function setModifiedAt(\DateTimeImmutable $modifiedAt): static
     {
         $this->modifiedAt = $modifiedAt;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): static
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function getModifiedBy(): ?User
+    {
+        return $this->modifiedBy;
+    }
+
+    public function setModifiedBy(?User $modifiedBy): static
+    {
+        $this->modifiedBy = $modifiedBy;
 
         return $this;
     }
