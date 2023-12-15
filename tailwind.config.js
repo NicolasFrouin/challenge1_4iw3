@@ -176,12 +176,12 @@ module.exports = {
 				  },
 			  },
 			  fontSize: {
-				xxl: '1.5rem', // Exemple pour h1
-				xl: '1.25rem', // Exemple pour h2
-				lg: '1.125rem', // Exemple pour h3
-				base: '1rem', // Exemple pour le texte de base
-				sm: '0.875rem', // Exemple pour le texte plus petit
-				xs: '0.75rem', // Exemple pour le texte le plus petit
+				xxl: '1.5rem', // très grand
+				xl: '1.25rem', // grand
+				lg: '1.125rem', // un peu grand
+				base: '1rem', // taille normale
+				sm: '0.875rem', //taille un peu plus bas
+				xs: '0.75rem', // Taille minimale
 			  },
 		},
         fontWeight: {
