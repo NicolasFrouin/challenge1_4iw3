@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -39,8 +41,12 @@ class Company
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $modifiedBy = null;
 
+    #[ORM\OneToMany(mappedBy: 'idCompany', targetEntity: Product::class, orphanRemoval: true)]
+    private Collection $products;
+
     public function __construct() {
         $this->setCreatedAt(new \DateTimeImmutable());
+        $this->products = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -147,6 +153,36 @@ class Company
     public function setModifiedBy(?User $modifiedBy): static
     {
         $this->modifiedBy = $modifiedBy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProducts(): Collection
+    {
+        return $this->products;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->products->contains($product)) {
+            $this->products->add($product);
+            $product->setIdCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        if ($this->products->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getIdCompany() === $this) {
+                $product->setIdCompany(null);
+            }
+        }
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Company;
 use App\Entity\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -11,6 +12,8 @@ class ProductFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
+
+        $companies = $manager->getRepository(Company::class)->findAll();
 
         for ($i = 0; $i < 25; $i++) {
             $product = (new Product())
@@ -25,7 +28,8 @@ class ProductFixtures extends Fixture
                 ->setWidth($faker->randomFloat(2, 0, 10))
                 ->setDepth($faker->randomFloat(2, 0, 10))
                 ->setStock($faker->numberBetween(0, 1_000))
-                ->setActive($faker->boolean());
+                ->setActive($faker->boolean())
+                ->setIdCompany($faker->randomElement($companies));
             $manager->persist($product);
         }
 

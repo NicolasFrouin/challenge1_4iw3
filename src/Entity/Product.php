@@ -63,6 +63,10 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'modifiedProducts')]
     private ?User $modifiedBy = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Company $idCompany = null;
+
     public function __construct()
     {
         $this->setCreatedAt(new \DateTimeImmutable());
@@ -278,6 +282,18 @@ class Product
     public function setModifiedBy(?User $modifiedBy): static
     {
         $this->modifiedBy = $modifiedBy;
+
+        return $this;
+    }
+
+    public function getIdCompany(): ?Company
+    {
+        return $this->idCompany;
+    }
+
+    public function setIdCompany(?Company $idCompany): static
+    {
+        $this->idCompany = $idCompany;
 
         return $this;
     }
