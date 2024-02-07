@@ -99,7 +99,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @see PasswordAuthenticatedUserInterface
+     * @see PasswordAuthenticatedUserInterface 
      */
     public function getPassword(): string
     {
