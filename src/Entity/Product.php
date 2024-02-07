@@ -6,11 +6,17 @@ use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
+    use BlameableEntity;
+    use TimestampableEntity;
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -60,32 +66,12 @@ class Product
     #[ORM\Column]
     private ?bool $active = false;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $modifiedAt = null;
-
-    #[ORM\ManyToOne(inversedBy: 'createdProducts')]
-    private ?User $createdBy = null;
-
-    #[ORM\ManyToOne(inversedBy: 'modifiedProducts')]
-    private ?User $modifiedBy = null;
-
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Company $idCompany = null;
 
     public function __construct()
     {
-        $this->setCreatedAt(new \DateTimeImmutable());
-    }
-
-    #[ORM\PreUpdate]
-    #[ORM\PrePersist]
-    public function updateModifiedAt(): void
-    {
-        $this->setModifiedAt(new \DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -233,54 +219,6 @@ class Product
     public function setActive(bool $active): static
     {
         $this->active = $active;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getModifiedAt(): ?\DateTimeImmutable
-    {
-        return $this->modifiedAt;
-    }
-
-    public function setModifiedAt(\DateTimeImmutable $modifiedAt): static
-    {
-        $this->modifiedAt = $modifiedAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?User $createdBy): static
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getModifiedBy(): ?User
-    {
-        return $this->modifiedBy;
-    }
-
-    public function setModifiedBy(?User $modifiedBy): static
-    {
-        $this->modifiedBy = $modifiedBy;
 
         return $this;
     }

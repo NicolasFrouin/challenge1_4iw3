@@ -7,11 +7,17 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 class Company
 {
+    use BlameableEntity;
+    use TimestampableEntity;
+
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -29,18 +35,6 @@ class Company
     #[ORM\Column]
     private ?bool $premium = false;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $modifiedAt = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $createdBy = null;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?User $modifiedBy = null;
-
     #[ORM\OneToMany(mappedBy: 'idCompany', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
@@ -48,16 +42,8 @@ class Company
     private Collection $users;
 
     public function __construct() {
-        $this->setCreatedAt(new \DateTimeImmutable());
         $this->products = new ArrayCollection();
         $this->users = new ArrayCollection();
-    }
-
-    #[ORM\PreUpdate]
-    #[ORM\PrePersist]
-    public function updateModifiedAt(): void
-    {
-        $this->setModifiedAt(new \DateTimeImmutable());
     }
 
     public function getId(): ?int
@@ -109,54 +95,6 @@ class Company
     public function setPremium(bool $premium): static
     {
         $this->premium = $premium;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getModifiedAt(): ?\DateTimeImmutable
-    {
-        return $this->modifiedAt;
-    }
-
-    public function setModifiedAt(\DateTimeImmutable $modifiedAt): static
-    {
-        $this->modifiedAt = $modifiedAt;
-
-        return $this;
-    }
-
-    public function getCreatedBy(): ?User
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy(?User $createdBy): static
-    {
-        $this->createdBy = $createdBy;
-
-        return $this;
-    }
-
-    public function getModifiedBy(): ?User
-    {
-        return $this->modifiedBy;
-    }
-
-    public function setModifiedBy(?User $modifiedBy): static
-    {
-        $this->modifiedBy = $modifiedBy;
 
         return $this;
     }

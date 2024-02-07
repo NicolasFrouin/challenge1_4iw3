@@ -13,16 +13,12 @@ class CompanyFixtures extends Fixture
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        $users = $manager->getRepository(User::class)->findAll();
-
         for ($i = 0; $i < 25; $i++) {
             $company = (new Company())
                 ->setName($faker->company)
                 ->setDescription($faker->words($faker->numberBetween(0, 10), true))
                 ->setSiret($faker->regexify('\d{14}'))
-                ->setPremium($faker->boolean())
-                ->setCreatedBy($faker->randomElement($users))
-                ->setModifiedBy($faker->randomElement($users));
+                ->setPremium($faker->boolean());
             $manager->persist($company);
         }
 

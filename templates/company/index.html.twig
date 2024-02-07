@@ -14,7 +14,7 @@
                 <th>Siret</th>
                 <th>Premium</th>
                 <th>CreatedAt</th>
-                <th>ModifiedAt</th>
+                <th>UpdatedAt</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -27,7 +27,7 @@
                 <td>{{ company.siret }}</td>
                 <td>{{ company.premium ? 'Yes' : 'No' }}</td>
                 <td>{{ company.createdAt ? company.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ company.modifiedAt ? company.modifiedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ company.updatedAt ? company.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('app_company_show', {'id': company.id}) }}">show</a>
                     <a href="{{ path('app_company_edit', {'id': company.id}) }}">edit</a>

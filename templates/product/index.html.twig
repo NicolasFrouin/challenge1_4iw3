@@ -30,7 +30,7 @@
 						<twig:Table:Data>{{ product.stock|readnb }}</twig:Table:Data>
 						<twig:Table:Data>{{ product.active ? 'Yes' : 'No' }}</twig:Table:Data>
 						<twig:Table:Data>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
-						<twig:Table:Data>{{ product.modifiedAt ? product.modifiedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
 						<twig:Table:Data>
 							<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('front_product_edit', {'id': product.id}) }}" text="Modifier" icon="pencil"/>
 						</twig:Table:Data>
