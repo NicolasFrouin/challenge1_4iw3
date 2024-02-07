@@ -8,7 +8,7 @@
 		<table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
 			<caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
 				{{ product.ref }}
-                <twig:Button class="text-xs mt-4" href="{{ path('app_product_edit', {'id': product.id}) }}" text="Modifier" />
+                <twig:Button class="text-xs mt-4" href="{{ path('front_product_edit', {'id': product.id}) }}" text="Modifier" />
 			</caption>
 			<tbody>
 				<twig:Table:Row>
@@ -25,35 +25,35 @@
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>TaxRate</twig:Table:Header>
-					<twig:Table:Data>{{ product.taxRate }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.taxRate|readnb('%') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>PriceNoTax</twig:Table:Header>
-					<twig:Table:Data>{{ product.readablePriceNoTax }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.priceNoTax|readnb('€') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>PriceWithTax</twig:Table:Header>
-					<twig:Table:Data>{{ product.readablePriceWithTax }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.priceWithTax|readnb('€') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>Weight</twig:Table:Header>
-					<twig:Table:Data>{{ product.weight }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.weight|readnb('g') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>Height</twig:Table:Header>
-					<twig:Table:Data>{{ product.height }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.height|readnb('cm') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>Width</twig:Table:Header>
-					<twig:Table:Data>{{ product.width }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.width|readnb('cm') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>Depth</twig:Table:Header>
-					<twig:Table:Data>{{ product.depth }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.depth|readnb('cm') }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>Stock</twig:Table:Header>
-					<twig:Table:Data>{{ product.stock }}</twig:Table:Data>
+					<twig:Table:Data>{{ product.stock|readnb }}</twig:Table:Data>
 				</twig:Table:Row>
 				<twig:Table:Row>
 					<twig:Table:Header>Active</twig:Table:Header>
@@ -71,9 +71,9 @@
 		</table>
 	</div>
 
-	<a href="{{ path('app_product_index') }}">back to list</a>
+	<a href="{{ path('front_product_index') }}">back to list</a>
 
-	<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+	<a href="{{ path('front_product_edit', {'id': product.id}) }}">edit</a>
 
 	{{ include('product/_delete_form.html.twig') }}
 {% endblock %}

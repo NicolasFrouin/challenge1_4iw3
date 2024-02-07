@@ -40,6 +40,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'modifiedBy', targetEntity: Product::class)]
     private Collection $modifiedProducts;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    private ?Company $idCompany = null;
+
     public function __construct()
     {
         $this->createdProducts = new ArrayCollection();
@@ -189,6 +192,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $modifiedProduct->setModifiedBy(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIdCompany(): ?Company
+    {
+        return $this->idCompany;
+    }
+
+    public function setIdCompany(?Company $idCompany): static
+    {
+        $this->idCompany = $idCompany;
 
         return $this;
     }

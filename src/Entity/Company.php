@@ -44,9 +44,13 @@ class Company
     #[ORM\OneToMany(mappedBy: 'idCompany', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
+    #[ORM\OneToMany(mappedBy: 'idCompany', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct() {
         $this->setCreatedAt(new \DateTimeImmutable());
         $this->products = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     #[ORM\PreUpdate]
@@ -181,6 +185,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($product->getIdCompany() === $this) {
                 $product->setIdCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setIdCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getIdCompany() === $this) {
+                $user->setIdCompany(null);
             }
         }
 

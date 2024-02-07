@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
@@ -16,6 +17,7 @@ class Product
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "La référence est obligatoire")]
     private ?string $ref = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -25,24 +27,31 @@ class Product
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\Range(min: 0, max: 45, notInRangeMessage: "Le taux de TVA doit être compris entre 0 et 45%")]
     private ?float $taxRate = 0; // in percent (0 to 100)
 
     #[ORM\Column]
+    #[Assert\LessThanOrEqual(propertyPath: "priceWithTax", message: "Le prix HT doit être inférieur ou égal au prix TTC")]
     private ?int $priceNoTax = 0; // in cents
 
     #[ORM\Column]
+    #[Assert\GreaterThanOrEqual(propertyPath: "priceNoTax", message: "Le prix TTC doit être supérieur ou égal au prix HT")]
     private ?int $priceWithTax = 0; // in cents
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero]
     private ?float $weight = null; // in grams
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero]
     private ?float $height = null; // in cm
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero]
     private ?float $width = null; // in cm
 
     #[ORM\Column(nullable: true)]
+    #[Assert\PositiveOrZero]
     private ?float $depth = null; // in cm
 
     #[ORM\Column]
@@ -77,16 +86,6 @@ class Product
     public function updateModifiedAt(): void
     {
         $this->setModifiedAt(new \DateTimeImmutable());
-    }
-
-    public function getReadablePriceWithTax(): string
-    {
-        return number_format($this->getPriceWithTax() / 100, 2, ",", " ") . " €";
-    }
-
-    public function getReadablePriceNoTax(): string
-    {
-        return number_format($this->getPriceNoTax() / 100, 2, ",", " ") . " €";
     }
 
     public function getId(): ?int

@@ -1,4 +1,6 @@
-<td class="px-2 py-4 {% if important|default(false) %}font-medium text-gray-900 dark:textgr whitespace-nowrap{% endif %} {{ class|default() }}" {{ attributes }}>
+<td class="px-2 py-4 {% if important|default(false) %}font-medium text-gray-900 dark:textgr whitespace-nowrap{% endif %}
+ {% if is_numeric(block('content')) %}text-center{% endif %}
+ {{ class|default() }}" {{ attributes }}>
 	{% block content %}
 		{#  #}
 	{% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -16,6 +17,8 @@ class UserFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $faker = \Faker\Factory::create('fr_FR');
+
+        $companies = $manager->getRepository(Company::class)->findAll();
 
         $pass = "pass";
 
@@ -43,11 +46,20 @@ class UserFixtures extends Fixture
         $manager->persist($user);
         $this->addReference('accountant', $user);
 
+        $user = (new User())
+            ->setEmail("user@app.com")
+            ->setRoles([User::ROLE_USER])
+            ->setIsVerified(true);
+        $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
+        $manager->persist($user);
+        $this->addReference('user', $user);
+
         for ($i = 0; $i < 15; $i++) {
             $user = (new User())
                 ->setEmail($faker->email)
                 ->setPassword($this->passwordHasher->hashPassword($user, $pass))
-                ->setIsVerified($faker->boolean());
+                ->setIsVerified($faker->boolean())
+                ->setIdCompany($faker->randomElement($companies));
             $manager->persist($user);
         }
 

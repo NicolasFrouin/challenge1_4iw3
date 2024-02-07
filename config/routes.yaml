@@ -3,3 +3,18 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+controllers_back:
+    resource:
+        path: ../src/Controller/Back/
+        namespace: App\Controller\Back
+    type: attribute
+    name_prefix: back_
+    prefix: /admin
+
+controllers_front:
+    resource:
+        path: ../src/Controller/Front/
+        namespace: App\Controller\Front
+    type: attribute
+    name_prefix: front_
