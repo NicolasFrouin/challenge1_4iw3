@@ -1,0 +1,13 @@
+{% if roles is not defined or is_granted(roles) %}
+	<li>
+		<a href="{% if path is defined %} {{ path }} {% elseif active is defined %} {{ path(active) }} {% else %} / {% endif %}" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group {% if active is defined and active in app.request.get('_route') %} bg-gray-200 dark:bg-gray-600 {% endif %}">
+			{% if icon is defined %}
+				<i class="{{ 'text-gray-500 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white fa fa-' ~ icon }}"></i>
+			{% endif %}
+
+			<span class="ms-3 group-hover:font-bold">
+				{{ text }}
+			</span>
+		</a>
+	</li>
+{% endif %}
