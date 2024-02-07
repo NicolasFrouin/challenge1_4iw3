@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product
+{% endblock %}
+
+{% block body %}
+	<div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+		<table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+			<caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+				{{ product.ref }}
+                <twig:Button class="text-xs mt-4" href="{{ path('app_product_edit', {'id': product.id}) }}" text="Modifier" />
+			</caption>
+			<tbody>
+				<twig:Table:Row>
+					<twig:Table:Header>Ref</twig:Table:Header>
+					<twig:Table:Data>{{ product.ref }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Name</twig:Table:Header>
+					<twig:Table:Data>{{ product.name }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Description</twig:Table:Header>
+					<twig:Table:Data>{{ product.description }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>TaxRate</twig:Table:Header>
+					<twig:Table:Data>{{ product.taxRate }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>PriceNoTax</twig:Table:Header>
+					<twig:Table:Data>{{ product.readablePriceNoTax }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>PriceWithTax</twig:Table:Header>
+					<twig:Table:Data>{{ product.readablePriceWithTax }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Weight</twig:Table:Header>
+					<twig:Table:Data>{{ product.weight }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Height</twig:Table:Header>
+					<twig:Table:Data>{{ product.height }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Width</twig:Table:Header>
+					<twig:Table:Data>{{ product.width }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Depth</twig:Table:Header>
+					<twig:Table:Data>{{ product.depth }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Stock</twig:Table:Header>
+					<twig:Table:Data>{{ product.stock }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>Active</twig:Table:Header>
+					<twig:Table:Data>{{ product.active ? 'Yes' : 'No' }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>CreatedAt</twig:Table:Header>
+					<twig:Table:Data>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+				</twig:Table:Row>
+				<twig:Table:Row>
+					<twig:Table:Header>ModifiedAt</twig:Table:Header>
+					<twig:Table:Data>{{ product.modifiedAt ? product.modifiedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+				</twig:Table:Row>
+			</tbody>
+		</table>
+	</div>
+
+	<a href="{{ path('app_product_index') }}">back to list</a>
+
+	<a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
+
+	{{ include('product/_delete_form.html.twig') }}
+{% endblock %}

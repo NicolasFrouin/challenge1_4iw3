@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	Liste des produits
+{% endblock %}
+
+{% block body %}
+	<div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+		<table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+			<caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+				Liste des produits
+				<twig:Button href="{{ path('app_product_new') }}" text="Créer un nouveau produit" icon="plus" class="text-xs mt-4"/>
+			</caption>
+			<twig:Table:Head columns="Ref, Nom, Description, Taux de TVA, Prix HT, Prix TTC, Poids, Hauteur, Largeur, Profondeur, Stock, Actif, Créé le, Modifié le, Actions"/>
+			<tbody class="h-full">
+				{% for product in products %}
+					<twig:Table:Row>
+						<twig:Table:Data important="{{true}}">
+							<a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_product_show', {'id': product.id }) }}">{{ product.ref }}</a>
+						</twig:Table:Data>
+						<twig:Table:Data>{{ product.name }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.description }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.taxRate }}%</twig:Table:Data>
+						<twig:Table:Data class="whitespace-nowrap">{{ product.readablePriceNoTax }}</twig:Table:Data>
+						<twig:Table:Data class="whitespace-nowrap">{{ product.readablePriceWithTax }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.weight }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.height }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.width }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.depth }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.stock }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.active ? 'Yes' : 'No' }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>{{ product.modifiedAt ? product.modifiedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>
+							<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_product_edit', {'id': product.id}) }}" text="Modifier" icon="pencil"/>
+						</twig:Table:Data>
+					</twig:Table:Row>
+				{% else %}
+					<twig:Table:Row>
+						<twig:Table:Data colspan="99">Aucun produit enregistré</twig:Table:Data>
+					</twig:Table:Row>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+
+	{# <a href="{{ path('app_product_new') }}">Create new</a> #}
+{% endblock %}
