@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240207101205 extends AbstractMigration
+final class Version20240208102015 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -21,6 +21,10 @@ final class Version20240207101205 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE category (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description CLOB DEFAULT NULL, created_by VARCHAR(255) DEFAULT NULL, updated_by VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL)');
+        $this->addSql('CREATE TABLE client (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, id_company_id INTEGER NOT NULL, firstname VARCHAR(255) DEFAULT NULL, lastname VARCHAR(255) NOT NULL, email VARCHAR(255) DEFAULT NULL, address VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, created_by VARCHAR(255) DEFAULT NULL, updated_by VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, CONSTRAINT FK_C744045532119A01 FOREIGN KEY (id_company_id) REFERENCES company (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('CREATE INDEX IDX_C744045532119A01 ON client (id_company_id)');
+        $this->addSql('CREATE TABLE contact (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, id_client_id INTEGER NOT NULL, name VARCHAR(255) NOT NULL, address VARCHAR(255) DEFAULT NULL, email VARCHAR(255) DEFAULT NULL, city VARCHAR(255) DEFAULT NULL, zip_code VARCHAR(255) DEFAULT NULL, country VARCHAR(255) DEFAULT NULL, phone VARCHAR(255) DEFAULT NULL, created_by VARCHAR(255) DEFAULT NULL, updated_by VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, CONSTRAINT FK_4C62E63899DED506 FOREIGN KEY (id_client_id) REFERENCES client (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('CREATE INDEX IDX_4C62E63899DED506 ON contact (id_client_id)');
         $this->addSql('CREATE TEMPORARY TABLE __temp__company AS SELECT id, name, description, siret, premium, created_at FROM company');
         $this->addSql('DROP TABLE company');
         $this->addSql('CREATE TABLE company (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, name VARCHAR(255) NOT NULL, description CLOB DEFAULT NULL, siret VARCHAR(127) NOT NULL, premium BOOLEAN NOT NULL, created_at DATETIME NOT NULL, created_by VARCHAR(255) DEFAULT NULL, updated_by VARCHAR(255) DEFAULT NULL, updated_at DATETIME NOT NULL)');
@@ -32,16 +36,22 @@ final class Version20240207101205 extends AbstractMigration
         $this->addSql('INSERT INTO product (id, id_company_id, ref, name, description, tax_rate, price_no_tax, price_with_tax, weight, height, width, depth, stock, active, created_at) SELECT id, id_company_id, ref, name, description, tax_rate, price_no_tax, price_with_tax, weight, height, width, depth, stock, active, created_at FROM __temp__product');
         $this->addSql('DROP TABLE __temp__product');
         $this->addSql('CREATE INDEX IDX_D34A04AD32119A01 ON product (id_company_id)');
-        $this->addSql('ALTER TABLE user ADD COLUMN created_by VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE user ADD COLUMN updated_by VARCHAR(255) DEFAULT NULL');
-        $this->addSql('ALTER TABLE user ADD COLUMN created_at DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE user ADD COLUMN updated_at DATETIME NOT NULL');
+        $this->addSql('CREATE TEMPORARY TABLE __temp__user AS SELECT id, id_company_id, email, roles, password, is_verified FROM user');
+        $this->addSql('DROP TABLE user');
+        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, id_company_id INTEGER DEFAULT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
+        , password VARCHAR(255) NOT NULL, is_verified BOOLEAN NOT NULL, created_by VARCHAR(255) DEFAULT NULL, updated_by VARCHAR(255) DEFAULT NULL, created_at DATETIME NOT NULL, updated_at DATETIME NOT NULL, CONSTRAINT FK_8D93D64932119A01 FOREIGN KEY (id_company_id) REFERENCES company (id) ON UPDATE NO ACTION ON DELETE NO ACTION NOT DEFERRABLE INITIALLY IMMEDIATE)');
+        $this->addSql('INSERT INTO user (id, id_company_id, email, roles, password, is_verified) SELECT id, id_company_id, email, roles, password, is_verified FROM __temp__user');
+        $this->addSql('DROP TABLE __temp__user');
+        $this->addSql('CREATE INDEX IDX_8D93D64932119A01 ON user (id_company_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON user (email)');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE category');
+        $this->addSql('DROP TABLE client');
+        $this->addSql('DROP TABLE contact');
         $this->addSql('CREATE TEMPORARY TABLE __temp__company AS SELECT id, name, description, siret, premium, created_at FROM company');
         $this->addSql('DROP TABLE company');
         $this->addSql('CREATE TABLE company (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, created_by_id INTEGER DEFAULT NULL, modified_by_id INTEGER DEFAULT NULL, name VARCHAR(255) NOT NULL, description CLOB DEFAULT NULL, siret VARCHAR(127) NOT NULL, premium BOOLEAN NOT NULL, created_at DATETIME NOT NULL --(DC2Type:datetime_immutable)
@@ -63,7 +73,7 @@ final class Version20240207101205 extends AbstractMigration
         $this->addSql('CREATE INDEX IDX_D34A04AD99049ECE ON product (modified_by_id)');
         $this->addSql('CREATE TEMPORARY TABLE __temp__user AS SELECT id, id_company_id, email, roles, password, is_verified FROM user');
         $this->addSql('DROP TABLE user');
-        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, id_company_id INTEGER DEFAULT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
+        $this->addSql('CREATE TABLE user (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, id_company_id INTEGER DEFAULT NULL, email VARCHAR(180) NOT NULL, roles CLOB NOT NULL --(DC2Type:json)
         , password VARCHAR(255) NOT NULL, is_verified BOOLEAN NOT NULL, CONSTRAINT FK_8D93D64932119A01 FOREIGN KEY (id_company_id) REFERENCES company (id) NOT DEFERRABLE INITIALLY IMMEDIATE)');
         $this->addSql('INSERT INTO user (id, id_company_id, email, roles, password, is_verified) SELECT id, id_company_id, email, roles, password, is_verified FROM __temp__user');
         $this->addSql('DROP TABLE __temp__user');

@@ -18,16 +18,6 @@ class CompanyType extends AbstractType
             ->add('description')
             ->add('siret')
             ->add('premium')
-            ->add('createdAt')
-            ->add('modifiedAt')
-            ->add('createdBy', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
-            ->add('modifiedBy', EntityType::class, [
-                'class' => User::class,
-'choice_label' => 'id',
-            ])
         ;
     }
 

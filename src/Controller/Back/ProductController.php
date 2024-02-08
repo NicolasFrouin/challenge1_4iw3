@@ -60,7 +60,6 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product->setModifiedBy($this->getUser());
             $entityManager->flush();
 
             return $this->redirectToRoute('back_product_index', [], Response::HTTP_SEE_OTHER);
