@@ -3,49 +3,35 @@
 {% block title %}Client index{% endblock %}
 
 {% block body %}
-    <h1>Client index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Firstname</th>
-                <th>Lastname</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Phone</th>
-                <th>CreatedBy</th>
-                <th>UpdatedBy</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for client in clients %}
-            <tr>
-                <td>{{ client.id }}</td>
-                <td>{{ client.firstname }}</td>
-                <td>{{ client.lastname }}</td>
-                <td>{{ client.email }}</td>
-                <td>{{ client.address }}</td>
-                <td>{{ client.phone }}</td>
-                <td>{{ client.createdBy }}</td>
-                <td>{{ client.updatedBy }}</td>
-                <td>{{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_client_show', {'id': client.id}) }}">show</a>
-                    <a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="11">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_client_new') }}">Create new</a>
+<div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+		<table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+			<caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+				Liste des clients
+				<twig:Button href="{{ path('app_client_new') }}" text="Créer un nouveau client" icon="plus" class="text-xs mt-4"/>
+			</caption>
+			<twig:Table:Head columns="Nom, Prenom, Email, Adresse, Téléphone, Créer le, Modifier le"/>
+			<tbody class="h-full">
+				{% for client in clients %}
+					<twig:Table:Row>
+						<twig:Table:Data important="{{true}}">
+							<a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_client_show', {'id': client.id}) }}">{{ client.lastname }}</a>
+						</twig:Table:Data>
+						<twig:Table:Data>{{ client.firstname }}</twig:Table:Data>
+						<twig:Table:Data>{{ client.email }}</twig:Table:Data>
+						<twig:Table:Data>{{ client.address }}</twig:Table:Data>
+						<twig:Table:Data>{{ client.phone }}</twig:Table:Data>
+						<twig:Table:Data>{{ client.createdAt ? client.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>{{ client.updatedAt ? client.updatedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>
+							<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_client_edit', {'id': client.id}) }}" text="Modifier" icon="pencil"/>
+						</twig:Table:Data>
+					</twig:Table:Row>
+				{% else %}
+					<twig:Table:Row>
+						<twig:Table:Data colspan="99">Aucun client enregistré</twig:Table:Data>
+					</twig:Table:Row>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
 {% endblock %}
