@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
+//use Symfony\Component\Security\Core\Security;
 
 
 
@@ -18,13 +18,13 @@ use Symfony\Component\Security\Core\Security;
 class UserController extends AbstractController
 {
 
-    private $security;
+   /* private $security;
 
 
     public function __construct(Security $security)
     {
        $this->security = $security;
-    }
+    }*/
 
     #[Route('/', name: 'app_user_index', methods: ['GET'])]
     public function index(UserRepository $userRepository): Response
@@ -91,7 +91,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/info', name: 'app_user_setting', methods: ['GET'])]
+    /*#[Route('/info', name: 'app_user_setting', methods: ['GET'])]
     public function setting(): Response
     {
         $user = $this->security->getUser(); 
@@ -101,5 +101,5 @@ class UserController extends AbstractController
             //'id' => $id,
         ]);
     }
-
+*/
 }
