@@ -11,9 +11,9 @@
 		{% endblock %}
 
 {% block body %}
-    <h1 class="text-white">Création d'un nouveau produit</h1>
+    <h1 class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 dark:text-white">Création d'un nouveau produit</h1>
 
     {{ include('product/_form.html.twig') }}
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+    <a class="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-red-800 dark:text-white" href="{{ path('app_product_index') }}">back to list</a>
 {% endblock %}
