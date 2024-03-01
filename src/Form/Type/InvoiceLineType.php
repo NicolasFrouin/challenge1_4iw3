@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Type;
 
-use App\Entity\Invoice;
 use App\Entity\InvoiceLine;
 use App\Entity\Product;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class InvoiceLineType extends AbstractType
+class InvoiceLineType extends EntityType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('quantity')
-            ->add('product', EntityType::class, [
-                'class' => Product::class,
-                'choice_label' => 'id',
+            ->add('quantity', NumberType::class, [
+                'label' => 'Quantité',
+                'attr' => ['placeholder' => 'Quantité de produit'],
             ])
-            ->add('invoice', EntityType::class, [
-                'class' => Invoice::class,
-                'choice_label' => 'id',
+            ->add('product', EntityType::class, [
+                'label' => 'Produit',
+                'class' => Product::class,
+                'choice_label' => 'name',
             ]);
     }
 

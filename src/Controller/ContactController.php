@@ -14,13 +14,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/contact')]
 class ContactController extends AbstractController
 {
-    #[Route('/', name: 'app_contact_index', methods: ['GET'])]
-    public function index(ContactRepository $contactRepository): Response
-    {
-        return $this->render('contact/index.html.twig', [
-            'contacts' => $contactRepository->findAll(),
-        ]);
-    }
+    // #[Route('/', name: 'app_contact_index', methods: ['GET'])]
+    // public function index(ContactRepository $contactRepository): Response
+    // {
+    //     $contacts = [];
+
+    //     if ($this->getUser()->getRoles()[0] == "ROLE_ADMIN")
+    //         $contacts = $contactRepository->findAll();
+    //     else
+    //         $contacts = $contactRepository->findBy(["idCompany" => $this->getUser()->getIdCompany()->getId()]);
+
+    //     return $this->render('contact/index.html.twig', [
+    //         'contacts' => $contacts,
+    //     ]);
+    // }
 
     #[Route('/new', name: 'app_contact_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
@@ -45,6 +52,10 @@ class ContactController extends AbstractController
     #[Route('/{id}', name: 'app_contact_show', methods: ['GET'])]
     public function show(Contact $contact): Response
     {
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN")
+            if ($contact->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId())
+                throw $this->createNotFoundException('The contact does not exist');
+
         return $this->render('contact/show.html.twig', [
             'contact' => $contact,
         ]);
@@ -71,7 +82,7 @@ class ContactController extends AbstractController
     #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {
             $entityManager->remove($contact);
             $entityManager->flush();
         }

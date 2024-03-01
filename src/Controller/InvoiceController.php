@@ -30,6 +30,14 @@ class InvoiceController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!is_numeric($invoice->getFormPaidAmount()) || $invoice->getFormPaidAmount() < 0) {
+                $invoice->setFormPaidAmount(0);
+            }
+            $invoice->setPaidAmount($invoice->getFormPaidAmount() * 100); // transform to cents
+            if ($invoice->isPaid()) {
+                $invoice->setPaidAmount($invoice->getTotal());
+            }
+
             $entityManager->persist($invoice);
             $entityManager->flush();
 
@@ -71,7 +79,7 @@ class InvoiceController extends AbstractController
     #[Route('/{id}', name: 'app_invoice_delete', methods: ['POST'])]
     public function delete(Request $request, Invoice $invoice, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$invoice->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $invoice->getId(), $request->request->get('_token'))) {
             $entityManager->remove($invoice);
             $entityManager->flush();
         }

@@ -34,7 +34,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user = (new User())
             ->setEmail("company@app.com")
             ->setRoles([User::ROLE_COMPANY])
-            ->setIsVerified(true);
+            ->setIsVerified(true)
+            ->setIdCompany($faker->randomElement($companies));
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
         $manager->persist($user);
         $this->addReference('company', $user);
@@ -42,7 +43,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user = (new User())
             ->setEmail("accountant@app.com")
             ->setRoles([User::ROLE_ACCOUNTANT])
-            ->setIsVerified(true);
+            ->setIsVerified(true)
+            ->setIdCompany($faker->randomElement($companies));
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
         $manager->persist($user);
         $this->addReference('accountant', $user);
@@ -50,7 +52,8 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
         $user = (new User())
             ->setEmail("user@app.com")
             ->setRoles([User::ROLE_USER])
-            ->setIsVerified(true);
+            ->setIsVerified(true)
+            ->setIdCompany($faker->randomElement($companies));
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
         $manager->persist($user);
         $this->addReference('user', $user);

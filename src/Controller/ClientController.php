@@ -17,8 +17,15 @@ class ClientController extends AbstractController
     #[Route('/', name: 'app_client_index', methods: ['GET'])]
     public function index(ClientRepository $clientRepository): Response
     {
+        $clients = [];
+
+        if ($this->getUser()->getRoles()[0] == "ROLE_ADMIN")
+            $clients = $clientRepository->findAll();
+        else
+            $clients = $clientRepository->findBy(["idCompany" => $this->getUser()->getIdCompany()->getId()]);
+
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findAll(),
+            'clients' => $clients,
         ]);
     }
 
@@ -45,6 +52,10 @@ class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
     public function show(Client $client): Response
     {
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN")
+            if ($client->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId())
+                throw $this->createNotFoundException('The client does not exist');
+
         return $this->render('client/show.html.twig', [
             'client' => $client,
         ]);
@@ -71,7 +82,7 @@ class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_delete', methods: ['POST'])]
     public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $client->getId(), $request->request->get('_token'))) {
             $entityManager->remove($client);
             $entityManager->flush();
         }

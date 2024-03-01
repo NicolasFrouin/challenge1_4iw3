@@ -6,20 +6,27 @@ use App\Repository\InvoiceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Blameable\Traits\BlameableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 #[ORM\Entity(repositoryClass: InvoiceRepository::class)]
 class Invoice
 {
+    use BlameableEntity;
+    use TimestampableEntity;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column]
-    private ?bool $paid = null;
+    private ?bool $paid = false;
 
     #[ORM\Column]
-    private ?int $paidAmount = null;
+    private ?int $paidAmount = 0;
+
+    private ?float $formPaidAmount = 0;
 
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Client $client = null;
@@ -101,5 +108,28 @@ class Invoice
         }
 
         return $this;
+    }
+
+    public function getFormPaidAmount(): ?float
+    {
+        return $this->formPaidAmount;
+    }
+
+    public function setFormPaidAmount(float $formPaidAmount): static
+    {
+        $this->formPaidAmount = $formPaidAmount;
+
+        return $this;
+    }
+
+    public function getTotal(): int
+    {
+        $total = 0;
+
+        foreach ($this->invoiceLines as $line) {
+            $total += $line->getProduct()->getPriceWithTax();
+        }
+
+        return $total;
     }
 }
