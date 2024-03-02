@@ -5,7 +5,7 @@
 
 {% block body %}
 	<div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
-		<table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+		<table class="w-full text-sm text-left rtl:text-right text-red-600 dark:text-gray-300">
 			<caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
 				{{ product.ref }}
                 <twig:Button class="text-xs mt-4" href="{{ path('app_product_edit', {'id': product.id}) }}" text="Modifier" />

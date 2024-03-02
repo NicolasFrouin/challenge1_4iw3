@@ -1,6 +1,10 @@
+{# templates/your_template.html.twig #}
+
+{% form_theme form 'product/field.html.twig' %}
+
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <form>
-    <button class="btn inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 dark:text-white">{{ button_label|default('Sauvegarder') }}</button>
-    </form>
+    <button class="btn inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 dark:text-white">
+        {{ button_label|default('Sauvegarder') }}
+    </button>
 {{ form_end(form) }}
