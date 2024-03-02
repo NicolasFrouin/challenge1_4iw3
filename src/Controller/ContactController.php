@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
 use App\Entity\Contact;
 use App\Form\ContactType;
+use App\Repository\ClientRepository;
 use App\Repository\ContactRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/contact')]
 class ContactController extends AbstractController
@@ -88,5 +91,40 @@ class ContactController extends AbstractController
         }
 
         return $this->redirectToRoute('app_contact_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/fromClient/{idClient}', name: 'app_contact_from_client', methods: ['GET'])]
+    public function fromClient(Request $request, ClientRepository $clientRepository, ContactRepository $contactRepository): Response
+    {
+        $client = $clientRepository->find($request->get("idClient"));
+
+        $return = [];
+        $contacts = [];
+
+        if ($this->getUser()->getRoles()[0] == "ROLE_ADMIN") {
+            $contacts = $contactRepository->findBy(["client" => $client->getId()]);
+        } else {
+            if ($client->getIdCompany()->getId() == $this->getUser()->getIdCompany()->getId()) {
+                $contacts = $contactRepository->findBy(["idClient" => $client->getId()]);
+            } else {
+                throw $this->createNotFoundException('The client does not exist');
+            }
+        }
+
+        foreach ($contacts as $contact) {
+            $return[] = [
+                "id" => $contact->getId(),
+                "name" => $contact->getName(),
+                "email" => $contact->getEmail(),
+                "phone" => $contact->getPhone(),
+                "client" => $contact->getIdClient()->getId(),
+            ];
+        }
+
+        $response = new Response();
+
+        $response->setContent(json_encode($return));
+        
+        return  $response;
     }
 }

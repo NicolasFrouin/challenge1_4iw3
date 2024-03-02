@@ -1,4 +1,29 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, { attr: { id: 'invoice_form' } }) }}
+{{ form_widget(form) }}
+<button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+
+<script>
+  const formSelectClient = document.getElementById('invoice_client')
+  const formSelectContact = document.getElementById('invoice_contact')
+  
+  const changeOptions = async (e) => {
+    await fetch('/contact/fromClient/' + e.target.value)
+      .then((response) => response.json())
+      .then((data) => {
+        formSelectContact.innerHTML = ''
+        const option = document.createElement('option')
+        option.value = ''
+        option.text = 'Sélectionner un contact'
+        formSelectContact.appendChild(option)
+        data.forEach((contact) => {
+          const option = document.createElement('option')
+          option.value = contact.id
+          option.text = contact.name + ' (' + contact.email + ')'
+          formSelectContact.appendChild(option)
+        })
+      })
+  }
+  
+  formSelectClient.addEventListener('change', changeOptions)
+</script>

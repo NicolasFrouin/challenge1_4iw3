@@ -34,6 +34,12 @@ class Invoice
     #[ORM\OneToMany(mappedBy: 'invoice', targetEntity: InvoiceLine::class, orphanRemoval: true)]
     private Collection $invoiceLines;
 
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
+    private ?Company $company = null;
+
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
+    private ?Contact $contact = null;
+
     public function __construct()
     {
         $this->invoiceLines = new ArrayCollection();
@@ -131,5 +137,29 @@ class Invoice
         }
 
         return $total;
+    }
+
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?Contact $contact): static
+    {
+        $this->contact = $contact;
+
+        return $this;
     }
 }

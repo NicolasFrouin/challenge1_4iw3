@@ -26,7 +26,7 @@ class InvoiceController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $invoice = new Invoice();
-        $form = $this->createForm(InvoiceType::class, $invoice);
+        $form = $this->createForm(InvoiceType::class, $invoice, ["action" => $this->generateUrl("app_invoice_new")]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -37,6 +37,7 @@ class InvoiceController extends AbstractController
             if ($invoice->isPaid()) {
                 $invoice->setPaidAmount($invoice->getTotal());
             }
+            $invoice->setCompany($invoice->getClient()->getIdCompany());
 
             $entityManager->persist($invoice);
             $entityManager->flush();
@@ -45,7 +46,7 @@ class InvoiceController extends AbstractController
         }
 
         return $this->render('invoice/new.html.twig', [
-            'invoice' => $invoice,
+            // 'invoice' => $invoice,
             'form' => $form,
         ]);
     }
