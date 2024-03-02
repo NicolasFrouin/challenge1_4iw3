@@ -91,15 +91,15 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /*#[Route('/info', name: 'app_user_setting', methods: ['GET'])]
+    #[Route('/info', name: 'app_user_setting', methods: ['GET'])]
     public function setting(): Response
     {
-        $user = $this->security->getUser(); 
-        dd($user);
         return $this->render('user/info.html.twig', [
-            'user' => $user,
-            //'id' => $id,
+            'user' => $this->getUser(),
+            'email' => $this->getEmail(),
+            'role' => $this->getRole(),
+            'company' => $this->getIdCompany(),
         ]);
     }
-*/
+
 }
