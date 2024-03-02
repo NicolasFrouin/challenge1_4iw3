@@ -133,7 +133,11 @@ class Invoice
         $total = 0;
 
         foreach ($this->invoiceLines as $line) {
-            $total += $line->getProduct()->getPriceWithTax();
+            try {
+                $total += $line->getProduct()->getPriceWithTax();
+            } catch (\Throwable $e) {
+                dd($this->invoiceLines, $line->getProduct());
+            }
         }
 
         return $total;

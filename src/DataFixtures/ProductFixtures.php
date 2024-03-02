@@ -16,7 +16,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
 
         $companies = $manager->getRepository(Company::class)->findAll();
 
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 250; $i++) {
             $product = (new Product())
                 ->setRef($faker->regexify("[A-Z]{3,8}(_\d{3})?"))
                 ->setName($faker->words($faker->numberBetween(1,  5), true))

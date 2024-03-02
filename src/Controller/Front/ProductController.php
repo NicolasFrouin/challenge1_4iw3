@@ -4,6 +4,7 @@ namespace App\Controller\Front;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Repository\CompanyRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,14 +12,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/product', name:"product_")]
+#[Route('/product', name: "product_")]
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
+        $products = [];
+
+        if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $products = $productRepository->findAll();
+        } else if ($this->getUser()->getIdCompany()) {
+            $products = $this->getUser()->getIdCompany()->getProducts();
+        }
+
         return $this->render('product/index.html.twig', [
-            'products' => $productRepository->findBy(["idCompany" => $this->getUser()->getIdCompany()->getId()]),
+            'products' => $products,
         ]);
     }
 
@@ -72,7 +81,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
             $entityManager->remove($product);
             $entityManager->flush();
         }

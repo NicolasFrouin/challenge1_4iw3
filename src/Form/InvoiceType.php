@@ -52,11 +52,6 @@ class InvoiceType extends AbstractType
                         ->setParameter("idCompany", $this->security->getUser()->getIdCompany()->getId(), \PDO::PARAM_INT);
                 },
                 "choice_label" => fn (Client $client) => implode(" ", [$client->getFirstName(), $client->getLastName()]),
-            ])->add("contact", EntityType::class, [
-                "label" => "Contact",
-                "class" => Contact::class,
-                "choices" => [],
-                // "choice_label" => fn (Contact $contact) => implode(" ", [$contact->getFirstName(), $contact->getLastName()]),
             ])
             // ->add(
             //     $builder->create("invoiceLines", CollectionType::class, [
@@ -78,10 +73,42 @@ class InvoiceType extends AbstractType
             //         "choice_label" => "name",
             //     ])
             // )
-            ->add("invoiceLines", InvoiceLineType::class, [
-                "label" => "Lignes de facture",
-                "by_reference" => false,
+            // ->add("invoiceLines", InvoiceLineType::class, [
+            //     "label" => "Lignes de facture",
+            //     "by_reference" => false,
+            // ])
+
+        ;
+
+        $formModifier = function (FormInterface $form, Client $client = null) {
+            $contacts = null === $client ? [] : $client->getContacts();
+
+            $form->add('contact', EntityType::class, [
+                'label' => 'Contact',
+                'class' => Contact::class,
+                'choices' => $contacts,
             ]);
+        };
+
+        $builder->addEventListener(
+            FormEvents::PRE_SET_DATA,
+            function (FormEvent $event) use ($formModifier) {
+                $data = $event->getData();
+
+                $formModifier($event->getForm(), $data->getClient());
+            }
+        );
+
+        $builder->get('client')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $client = $event->getForm()->getData();
+                $formModifier($event->getForm()->getParent(), $client);
+            }
+        );
+
+
+
 
         $builder->setAction($options["action"]);
     }

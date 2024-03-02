@@ -55,9 +55,9 @@ class ContactController extends AbstractController
     #[Route('/{id}', name: 'app_contact_show', methods: ['GET'])]
     public function show(Contact $contact): Response
     {
-        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN")
-            if ($contact->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId())
-                throw $this->createNotFoundException('The contact does not exist');
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN" && $contact->getIdClient()->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
 
         return $this->render('contact/show.html.twig', [
             'contact' => $contact,
@@ -67,6 +67,10 @@ class ContactController extends AbstractController
     #[Route('/{id}/edit', name: 'app_contact_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN" && $contact->getIdClient()->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+
         $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
 
@@ -85,6 +89,10 @@ class ContactController extends AbstractController
     #[Route('/{id}', name: 'app_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN" && $contact->getIdClient()->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+
         if ($this->isCsrfTokenValid('delete' . $contact->getId(), $request->request->get('_token'))) {
             $entityManager->remove($contact);
             $entityManager->flush();
@@ -107,7 +115,7 @@ class ContactController extends AbstractController
             if ($client->getIdCompany()->getId() == $this->getUser()->getIdCompany()->getId()) {
                 $contacts = $contactRepository->findBy(["idClient" => $client->getId()]);
             } else {
-                throw $this->createNotFoundException('The client does not exist');
+                throw $this->createNotFoundException();
             }
         }
 
@@ -124,7 +132,7 @@ class ContactController extends AbstractController
         $response = new Response();
 
         $response->setContent(json_encode($return));
-        
+
         return  $response;
     }
 }

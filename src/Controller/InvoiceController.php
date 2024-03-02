@@ -17,8 +17,16 @@ class InvoiceController extends AbstractController
     #[Route('/', name: 'app_invoice_index', methods: ['GET'])]
     public function index(InvoiceRepository $invoiceRepository): Response
     {
+        $invoices = [];
+
+        if ($this->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $invoices = $invoiceRepository->findAll();
+        } else if ($this->getUser()->getIdCompany()) {
+            $invoices = $this->getUser()->getIdCompany()->getInvoices();
+        }
+
         return $this->render('invoice/index.html.twig', [
-            'invoices' => $invoiceRepository->findAll(),
+            'invoices' => $invoices,
         ]);
     }
 
@@ -54,6 +62,10 @@ class InvoiceController extends AbstractController
     #[Route('/{id}', name: 'app_invoice_show', methods: ['GET'])]
     public function show(Invoice $invoice): Response
     {
+        if ($this->getUser()->getRoles()[0] !== 'ROLE_ADMIN' && $invoice->getCompany()->getId() !== $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+
         return $this->render('invoice/show.html.twig', [
             'invoice' => $invoice,
         ]);
@@ -62,6 +74,10 @@ class InvoiceController extends AbstractController
     #[Route('/{id}/edit', name: 'app_invoice_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Invoice $invoice, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getRoles()[0] !== 'ROLE_ADMIN' && $invoice->getCompany()->getId() !== $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+
         $form = $this->createForm(InvoiceType::class, $invoice);
         $form->handleRequest($request);
 
@@ -80,6 +96,10 @@ class InvoiceController extends AbstractController
     #[Route('/{id}', name: 'app_invoice_delete', methods: ['POST'])]
     public function delete(Request $request, Invoice $invoice, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getRoles()[0] !== 'ROLE_ADMIN' && $invoice->getCompany()->getId() !== $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+        
         if ($this->isCsrfTokenValid('delete' . $invoice->getId(), $request->request->get('_token'))) {
             $entityManager->remove($invoice);
             $entityManager->flush();

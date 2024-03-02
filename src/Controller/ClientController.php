@@ -52,9 +52,9 @@ class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
     public function show(Client $client): Response
     {
-        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN")
-            if ($client->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId())
-                throw $this->createNotFoundException('The client does not exist');
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN" && $client->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
 
         return $this->render('client/show.html.twig', [
             'client' => $client,
@@ -64,6 +64,10 @@ class ClientController extends AbstractController
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN" && $client->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
@@ -82,6 +86,10 @@ class ClientController extends AbstractController
     #[Route('/{id}', name: 'app_client_delete', methods: ['POST'])]
     public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN" && $client->getIdCompany()->getId() != $this->getUser()->getIdCompany()->getId()) {
+            throw $this->createNotFoundException();
+        }
+
         if ($this->isCsrfTokenValid('delete' . $client->getId(), $request->request->get('_token'))) {
             $entityManager->remove($client);
             $entityManager->flush();
