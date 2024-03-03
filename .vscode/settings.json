@@ -1,0 +1,11 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "xdcfgv",
+            "database": "${workspaceFolder:challenge1_4iw3}/var/data.dev.sqlite"
+        }
+    ],
+    "sqltools.useNodeRuntime": true
+}

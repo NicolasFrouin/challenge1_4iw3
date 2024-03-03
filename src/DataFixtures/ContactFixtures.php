@@ -16,7 +16,7 @@ class ContactFixtures extends Fixture implements DependentFixtureInterface
 
         $companies = $manager->getRepository(Client::class)->findAll();
 
-        for ($i = 0; $i < 250; $i++) {
+        for ($i = 0; $i < 800; $i++) {
             $contact = (new Contact())
                 ->setName($faker->firstName())
                 ->setEmail($faker->email())

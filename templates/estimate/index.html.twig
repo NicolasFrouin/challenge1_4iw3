@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Liste des devis
+{% endblock %}
+
+{% block body %}
+  <div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+      <caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        Liste des devis<twig:Button href="{{ path('app_estimate_new') }}" text="Créer un nouveau devis" icon="plus" class="text-xs mt-4" />
+      </caption>
+      <twig:Table:Head columns="ID, Signé, Client, Contact, Statut, Créé le, Modifié le, Actions" />
+      <tbody class="h-full">
+        {% for estimate in estimates %}
+          <twig:Table:Row>
+            <twig:Table:Data important="true">
+              <a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_estimate_show', { id: estimate.id }) }}">Devi n°{{ estimate.id }}</a>
+            </twig:Table:Data>
+            <twig:Table:Data>{{ estimate.signed ? 'Oui' : 'Non' }}</twig:Table:Data>
+            <twig:Table:Data>{{ estimate.client.lastname is defined ? estimate.client.firstname ~ ' ' ~ estimate.client.lastname : '' }}</twig:Table:Data>
+            <twig:Table:Data>{{ estimate.contact.name is defined ? estimate.contact.name ~ ' (' ~ estimate.contact.email ~ ')' }}</twig:Table:Data>
+            <twig:Table:Data>
+              {% if estimate.status == 1 %}
+                <span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-500 dark:text-green-100">Validé</span>
+              {% elseif estimate.status == 0 %}
+                <span class="px-2 py-1 text-xs font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-500 dark:text-yellow-100">En attente</span>
+              {% elseif condition %}
+                <span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-500 dark:text-red-100">Refusé</span>
+              {% endif %}
+            </twig:Table:Data>
+            <twig:Table:Data>{{ estimate.createdAt is defined ? estimate.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+            <twig:Table:Data>{{ estimate.updatedAt is defined ? estimate.updatedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+            <twig:Table:Data>
+              <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_estimate_edit', { id: estimate.id }) }}" text="Modifier" icon="pencil" />
+            </twig:Table:Data>
+          </twig:Table:Row>
+        {% else %}
+          <twig:Table:Row>
+            <twig:Table:Data colspan="99">Aucun devis enregistrée</twig:Table:Data>
+          </twig:Table:Row>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
