@@ -47,11 +47,15 @@ class Company
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Invoice::class)]
     private Collection $invoices;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Estimate::class)]
+    private Collection $estimates;
+
     public function __construct() {
         $this->products = new ArrayCollection();
         $this->users = new ArrayCollection();
         $this->clients = new ArrayCollection();
         $this->invoices = new ArrayCollection();
+        $this->estimates = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -221,6 +225,36 @@ class Company
             // set the owning side to null (unless already changed)
             if ($invoice->getCompany() === $this) {
                 $invoice->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Estimate>
+     */
+    public function getEstimates(): Collection
+    {
+        return $this->estimates;
+    }
+
+    public function addEstimate(Estimate $estimate): static
+    {
+        if (!$this->estimates->contains($estimate)) {
+            $this->estimates->add($estimate);
+            $estimate->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEstimate(Estimate $estimate): static
+    {
+        if ($this->estimates->removeElement($estimate)) {
+            // set the owning side to null (unless already changed)
+            if ($estimate->getCompany() === $this) {
+                $estimate->setCompany(null);
             }
         }
 

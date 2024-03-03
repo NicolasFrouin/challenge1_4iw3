@@ -39,7 +39,8 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $product->setCreatedBy($this->getUser());
+            if ($this->getUser()->getIdCompany()) $product->setIdCompany($this->getUser()->getIdCompany());
+
             $entityManager->persist($product);
             $entityManager->flush();
 

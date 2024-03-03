@@ -11,15 +11,15 @@
     <tbody>
       <tr>
         <th>Id</th>
-        <td>{{ invoice.id }}</td>
+        <td>Facture n°{{ invoice.id }}</td>
       </tr>
       <tr>
         <th>Complètement payée</th>
-        <td>{{ invoice.paid ? 'Yes' : 'No' }}</td>
+        <td>{{ invoice.paid ? 'Oui' : 'Non' }}</td>
       </tr>
       <tr>
         <th>Montant payé</th>
-        <td>{{ invoice.paidAmount|readnb("€") }}</td>
+        <td>{{ invoice.paidAmount|readnb('€') }}</td>
       </tr>
       <tr>
         <th>Client</th>
@@ -39,43 +39,44 @@
       </tr>
       <tr>
         <th>Total</th>
-        <td>{{ invoice.total|readnb("€") }}</td>
+        <td>{{ invoice.total|readnb('€') }}</td>
       </tr>
       <tr>
         <th>Lignes de facture</th>
         <td>
-          {% if invoice.invoiceLines is empty %}
-            <p>Aucune ligne de facture</p>
-          {% else %}
-            <table>
-              <thead>
-                <tr>
-                  <th>Quantité</th>
-                  <th>Produit</th>
-                  <th>Prix unitaire</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for invoiceLine in invoice.invoiceLines %}
-                  <tr>
-                    <td>{{ invoiceLine.quantity|readnb }}</td>
-                    <td>{{ invoiceLine.product.name }}</td>
-                    <td>{{ invoiceLine.product.priceWithTax|readnb("€") }}</td>
-                    <td>{{ invoiceLine.total|readnb("€") }}</td>
-                  </tr>
-                {% endfor %}
-              </tbody>
-            </table>
-          {% endif %}
+          <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+            <twig:Table:Head columns="Quantité, Produit, Prix TTC, Total" />
+            <tbody class="h-full">
+              {% for invoiceLine in invoice.invoiceLines %}
+                <twig:Table:Row>
+                  <twig:Table:Data>{{ invoiceLine.quantity|readnb }}</twig:Table:Data>
+                  <twig:Table:Data>{{ invoiceLine.product.name }}</twig:Table:Data>
+                  <twig:Table:Data>{{ invoiceLine.product.priceWithTax|readnb('€') }}</twig:Table:Data>
+                  <twig:Table:Data>{{ invoiceLine.total|readnb('€') }}</twig:Table:Data>
+                </twig:Table:Row>
+              {% else %}
+                <twig:Table:Row>
+                  <twig:Table:Data colspan="99">Aucune ligne de facture enregistrée</twig:Table:Data>
+                </twig:Table:Row>
+              {% endfor %}
+            </tbody>
+          </table>
         </td>
       </tr>
+      {% if invoice.estimate is defined %}
+        <tr>
+          <th>Devis</th>
+          <td>
+            <a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_estimate_show', { id: invoice.estimate.id }) }}">Devis n°{{ invoice.estimate.id }}</a>
+          </td>
+        </tr>
+      {% endif %}
     </tbody>
   </table>
 
-  <a href="{{ path('app_invoice_index') }}">back to list</a>
+  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_index') }}" text="Retour à la liste" icon="rotate-left" />
 
-  <a href="{{ path('app_invoice_edit', { id: invoice.id }) }}">edit</a>
+  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_edit', { id: invoice.id }) }}" text="Modifier" icon="pencil" />
 
   {{ include('invoice/_delete_form.html.twig') }}
 {% endblock %}

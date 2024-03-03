@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_estimate_delete', { id: estimate.id }) }}" onsubmit="return confirm('Voulez-vous supprimer ce devis ?');">
+  <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ estimate.id) }}" />
+  <twig:Button class="bg-red-500 dark:bg-red-600" href="{{ path('app_estimate_edit', { id: estimate.id }) }}" text="Supprimer" icon="times" />
+</form>

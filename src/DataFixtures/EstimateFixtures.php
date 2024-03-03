@@ -4,14 +4,14 @@ namespace App\DataFixtures;
 
 use App\Entity\Client;
 use App\Entity\Company;
-use App\Entity\Invoice;
-use App\Entity\InvoiceLine;
+use App\Entity\Estimate;
+use App\Entity\EstimateLine;
 use App\Entity\Product;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class InvoiceFixtures extends Fixture implements DependentFixtureInterface
+class EstimateFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -20,27 +20,26 @@ class InvoiceFixtures extends Fixture implements DependentFixtureInterface
         $companies = $manager->getRepository(Company::class)->findAll();
 
         for ($i = 0; $i < 250; $i++) {
-            $invoiceCompany = $faker->randomElement($companies);
-            $invoiceClient = $faker->randomElement($manager->getRepository(Client::class)->findBy(['idCompany' => $invoiceCompany->getId()]));
-            $invoice = (new Invoice())
-                ->setPaid($faker->boolean())
-                ->setPaidAmount($faker->randomNumber(3))
-                ->setClient($invoiceClient)
-                ->setContact($faker->randomElement($invoiceClient->getContacts()))
+            $estimateCompany = $faker->randomElement($companies);
+            $estimateClient = $faker->randomElement($manager->getRepository(Client::class)->findBy(['idCompany' => $estimateCompany->getId()]));
+            $estimate = (new Estimate())
+                ->setSigned($faker->boolean())
+                ->setClient($estimateClient)
+                ->setContact($faker->randomElement($estimateClient->getContacts()))
                 ->setCompany($faker->randomElement($companies))
                 ->setStatus($faker->numberBetween(0, 1));
 
-            $products = $manager->getRepository(Product::class)->findBy(['idCompany' => $invoiceCompany->getId()]);
+            $products = $manager->getRepository(Product::class)->findBy(['idCompany' => $estimateCompany->getId()]);
             $numberOfLines = $faker->numberBetween(0, 10);
             for ($j = 0; $j < $numberOfLines; $j++) {
-                $invoiceLine = (new InvoiceLine())
-                    ->setInvoice($invoice)
+                $estimateLine = (new EstimateLine())
+                    ->setEstimate($estimate)
                     ->setDescription($faker->words($faker->numberBetween(1, 5), true))
                     ->setQuantity($faker->numberBetween(1, 20))
                     ->setProduct($faker->randomElement($products));
-                $manager->persist($invoiceLine);
+                $manager->persist($estimateLine);
             }
-            $manager->persist($invoice);
+            $manager->persist($estimate);
         }
         $manager->flush();
     }

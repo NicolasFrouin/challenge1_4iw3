@@ -5,7 +5,8 @@
 			<twig:Nav:NavItem text="Produits" path="{{ path('product_index') }}" active="app_product" icon="bag-shopping"/>
 			<twig:Nav:NavItem text="Sociétés" path="{{ path('app_company_index') }}" active="app_company" icon="building" roles="ROLE_ADMIN"/>
 			<twig:Nav:NavItem text="Clients" path="{{ path('app_client_index') }}" active="app_client" icon="users"/>
-			<twig:Nav:NavItem text="Factures" path="{{ path('app_invoice_index') }}" active="app_invoice" icon="address-book"/>
+			<twig:Nav:NavItem text="Factures" path="{{ path('app_invoice_index') }}" active="app_invoice" icon="file-invoice-dollar"/>
+			<twig:Nav:NavItem text="Devis" path="{{ path('app_estimate_index') }}" active="app_estimate" icon="file-invoice"/>
 			{# <twig:Nav:NavItem text="Contacts" path="{{ path('app_contact_index') }}" active="app_contact" icon="address-book"/> #}
 		</ul>
 	</div>

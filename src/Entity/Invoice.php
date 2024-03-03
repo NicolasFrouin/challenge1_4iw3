@@ -40,6 +40,17 @@ class Invoice
     #[ORM\ManyToOne(inversedBy: 'invoices')]
     private ?Contact $contact = null;
 
+    #[ORM\Column]
+    private ?int $status = 0;
+
+    #[ORM\ManyToOne(inversedBy: 'invoices')]
+    private ?Estimate $estimate = null;
+
+    public const STATUS_DRAFT = 0;
+    public const STATUS_VALIDATED = 1;
+    public const STATUS_ABORTED = 9;
+
+
     public function __construct()
     {
         $this->invoiceLines = new ArrayCollection();
@@ -133,11 +144,7 @@ class Invoice
         $total = 0;
 
         foreach ($this->invoiceLines as $line) {
-            try {
-                $total += $line->getProduct()->getPriceWithTax();
-            } catch (\Throwable $e) {
-                dd($this->invoiceLines, $line->getProduct());
-            }
+            $total += $line->getProduct()->getPriceWithTax();
         }
 
         return $total;
@@ -163,6 +170,30 @@ class Invoice
     public function setContact(?Contact $contact): static
     {
         $this->contact = $contact;
+
+        return $this;
+    }
+
+    public function getStatus(): ?int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): static
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getEstimate(): ?Estimate
+    {
+        return $this->estimate;
+    }
+
+    public function setEstimate(?Estimate $estimate): static
+    {
+        $this->estimate = $estimate;
 
         return $this;
     }
