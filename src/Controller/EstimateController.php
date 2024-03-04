@@ -39,7 +39,8 @@ class EstimateController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $estimate->setCompany($estimate->getClient()->getIdCompany());
+            if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN")
+                $estimate->setCompany($this->getUser()->getIdCompany());
 
             $entityManager->persist($estimate);
             $entityManager->flush();

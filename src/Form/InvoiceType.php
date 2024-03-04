@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Client;
+use App\Entity\Company;
 use App\Entity\Contact;
 use App\Entity\Invoice;
 use App\Entity\Product;
@@ -107,6 +108,19 @@ class InvoiceType extends AbstractType
         );
 
         $builder->setAction($options["action"]);
+
+        if ($this->security->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $builder->add(
+                'company',
+                EntityType::class,
+                [
+                    'class' => Company::class,
+                    'choice_label' => 'name',
+                    'label' => 'Entreprise',
+                    'attr' => ['placeholder' => 'Entreprise'],
+                ]
+            );
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

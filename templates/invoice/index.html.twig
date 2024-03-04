@@ -1,4 +1,4 @@
-{% extends "base.html.twig" %}
+{% extends 'base.html.twig' %}
 
 {% block title %}
   Liste des factures
@@ -6,25 +6,25 @@
 
 {% block body %}
   <div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+    <twig:Table:Table>
       <caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
-        Liste des factures<twig:Button href="{{ path("app_invoice_new") }}" text="Créer une nouvelle facture" icon="plus" class="text-xs mt-4" />
+        Liste des factures<twig:Button href="{{ path('app_invoice_new') }}" text="Créer une nouvelle facture" icon="plus" class="text-xs mt-4" />
       </caption>
       <twig:Table:Head columns="ID, Complètement payée, Montant payé, Client, Contact, Créé le, Modifié le, Actions" />
       <tbody class="h-full">
         {% for invoice in invoices %}
           <twig:Table:Row>
             <twig:Table:Data important="true">
-              <a class="text-blue-500 dark:text-blue-300 underline" href="{{ path("app_invoice_show", { id: invoice.id }) }}">Facture n°{{ invoice.id }}</a>
+              <a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_invoice_show', { id: invoice.id }) }}">Facture n°{{ invoice.id }}</a>
             </twig:Table:Data>
-            <twig:Table:Data>{{ invoice.paid ? "Oui" : "Non" }}</twig:Table:Data>
-            <twig:Table:Data class="whitespace-nowrap">{{ invoice.paidAmount|readnb("€") }}</twig:Table:Data>
-            <twig:Table:Data>{{ invoice.client.lastname is defined ? invoice.client.firstname ~ " " ~ invoice.client.lastname : "" }}</twig:Table:Data>
-            <twig:Table:Data>{{ invoice.contact.name is defined ? invoice.contact.name ~ " (" ~ invoice.contact.email ~ ")" }}</twig:Table:Data>
-            <twig:Table:Data>{{ invoice.createdAt is defined ? invoice.createdAt|date("Y-m-d H:i:s") : "" }}</twig:Table:Data>
-            <twig:Table:Data>{{ invoice.updatedAt is defined ? invoice.updatedAt|date("Y-m-d H:i:s") : "" }}</twig:Table:Data>
+            <twig:Table:Data>{{ invoice.paid ? 'Oui' : 'Non' }}</twig:Table:Data>
+            <twig:Table:Data class="whitespace-nowrap">{{ invoice.paidAmount|readnb('€') }}</twig:Table:Data>
+            <twig:Table:Data>{{ invoice.client.lastname is defined ? invoice.client.firstname ~ ' ' ~ invoice.client.lastname : '' }}</twig:Table:Data>
+            <twig:Table:Data>{{ invoice.contact.name is defined ? invoice.contact.name ~ ' (' ~ invoice.contact.email ~ ')' }}</twig:Table:Data>
+            <twig:Table:Data>{{ invoice.createdAt is defined ? invoice.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+            <twig:Table:Data>{{ invoice.updatedAt is defined ? invoice.updatedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
             <twig:Table:Data>
-              <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path("app_invoice_edit", { id: invoice.id }) }}" text="Modifier" icon="pencil" />
+              <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_edit', { id: invoice.id }) }}" text="Modifier" icon="pencil" />
             </twig:Table:Data>
           </twig:Table:Row>
         {% else %}
@@ -33,62 +33,6 @@
           </twig:Table:Row>
         {% endfor %}
       </tbody>
-    </table>
+    </twig:Table:Table>
   </div>
 {% endblock %}
-
-{# {% extends "base.html.twig" %}
-
-{% block title %}
-  Invoice index
-{% endblock %}
-
-{% block body %}
-  <h1>Invoice index</h1>
-
-  <table class="table">
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Complètement payée</th>
-        <th>Montant payé</th>
-        <th>Client</th>
-        <th>Contact</th>
-        <th>Actions</th>
-        <th>Total</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for invoice in invoices %}
-        <tr>
-          <td>{{ invoice.id }}</td>
-          <td>{{ invoice.paid ? "Oui" : "Non" }}</td>
-          <td>{{ invoice.paidAmount }}</td>
-          <td>
-            {% if invoice.client.firstname is defined %}
-              {{ invoice.client.firstname }} {{ invoice.client.lastname }}
-            {% endif %}
-          </td>
-          <td>
-            {% if invoice.contact.name is defined %}
-              {{ invoice.contact.name }} ({{ invoice.contact.email }})
-            {% endif %}
-          </td>
-          <td>
-            {{ invoice.total }}
-          </td>
-          <td>
-            <a href="{{ path("app_invoice_show", { id: invoice.id }) }}">show</a>
-            <a href="{{ path("app_invoice_edit", { id: invoice.id }) }}">edit</a>
-          </td>
-        </tr>
-      {% else %}
-        <tr>
-          <td colspan="4">no records found</td>
-        </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-
-  <a href="{{ path("app_invoice_new") }}">Create new</a>
-{% endblock %} #}

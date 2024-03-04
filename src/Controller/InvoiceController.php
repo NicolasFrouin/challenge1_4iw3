@@ -45,7 +45,9 @@ class InvoiceController extends AbstractController
             if ($invoice->isPaid()) {
                 $invoice->setPaidAmount($invoice->getTotal());
             }
-            $invoice->setCompany($invoice->getClient()->getIdCompany());
+            if ($this->getUser()->getRoles()[0] !== 'ROLE_ADMIN') {
+                $invoice->setCompany($this->getUser()->getIdCompany());
+            }
 
             $entityManager->persist($invoice);
             $entityManager->flush();

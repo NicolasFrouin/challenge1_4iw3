@@ -39,13 +39,13 @@
                 <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ contact.updatedAt ? contact.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_contact_show', {'id': contact.id}) }}">show</a>
-                    <a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
+                    
+                    <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_contact_edit', {'id': contact.id}) }}" text="Modifier" icon="pencil" />
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="13">no records found</td>
+                <td colspan="13">Aucun résultat trouvé</td>
             </tr>
         {% endfor %}
         </tbody>

@@ -1,75 +1,69 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Client
+{% block title %}
+  Client n°{{ client.id }}
 {% endblock %}
 
 {% block body %}
-	<h1>Client</h1>
+  <h1 class="font-medium text-gray-900 dark:text-gray-400 whitespace-nowrap text-2xl">Client n°{{ client.id }}</h1>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Firstname</th>
-				<td>{{ client.firstname }}</td>
-			</tr>
-			<tr>
-				<th>Lastname</th>
-				<td>{{ client.lastname }}</td>
-			</tr>
-			<tr>
-				<th>Email</th>
-				<td>{{ client.email }}</td>
-			</tr>
-			<tr>
-				<th>Address</th>
-				<td>{{ client.address }}</td>
-			</tr>
-			<tr>
-				<th>Phone</th>
-				<td>{{ client.phone }}</td>
-			</tr>
-		</tbody>
-	</table>
+  <twig:Table:Table>
+    <tbody>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Id</twig:Table:Header>
+        <twig:Table:Data>{{ client.id }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Prénom</twig:Table:Header>
+        <twig:Table:Data>{{ client.firstname }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Nom de famille</twig:Table:Header>
+        <twig:Table:Data>{{ client.lastname }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Email</twig:Table:Header>
+        <twig:Table:Data>{{ client.email }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Addrese</twig:Table:Header>
+        <twig:Table:Data>{{ client.address }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Téléphone</twig:Table:Header>
+        <twig:Table:Data>{{ client.phone }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Contacts</twig:Table:Header>
+        <twig:Table:Data>
+          <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+            <twig:Table:Head columns="Nom, Adresse, Email, Ville, Code postal, Pays, Téléphone" />
+            <tbody class="h-full">
+              {% for contact in client.contacts %}
+                <twig:Table:Row>
+                  <twig:Table:Data>{{ contact.name }}</twig:Table:Data>
+                  <twig:Table:Data>{{ contact.address }}</twig:Table:Data>
+                  <twig:Table:Data>{{ contact.email }}</twig:Table:Data>
+                  <twig:Table:Data>{{ contact.city }}</twig:Table:Data>
+                  <twig:Table:Data>{{ contact.zipCode }}</twig:Table:Data>
+                  <twig:Table:Data>{{ contact.country }}</twig:Table:Data>
+                  <twig:Table:Data>{{ contact.phone }}</twig:Table:Data>
+                </twig:Table:Row>
+              {% else %}
+                <twig:Table:Row>
+                  <twig:Table:Data colspan="99">Aucune contact enregistré</twig:Table:Data>
+                </twig:Table:Row>
+              {% endfor %}
+            </tbody>
+          </table>
+        </twig:Table:Data>
+      </twig:Table:Row>
+    </tbody>
+  </twig:Table:Table>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Name</th>
-				<th>Address</th>
-				<th>Email</th>
-				<th>City</th>
-				<th>ZipCode</th>
-				<th>Country</th>
-				<th>Phone</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for contact in client.getContacts() %}
-				<tr>
-					<td>{{ contact.name }}</td>
-					<td>{{ contact.address }}</td>
-					<td>{{ contact.email }}</td>
-					<td>{{ contact.city }}</td>
-					<td>{{ contact.zipCode }}</td>
-					<td>{{ contact.country }}</td>
-					<td>{{ contact.phone }}</td>
-					<td>
-						<a href="{{ path('app_contact_show', {'id': contact.id}) }}">show</a>
-						<a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
-					</td>
-				</tr>
-			{% else %}
-				<tr>
-					<td colspan="13">no records found</td>
-				</tr>
-			{% endfor %}
-		</tbody>
-	</table>
+  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_client_index') }}" text="Retour à la liste" icon="rotate-left" />
 
-	<a href="{{ path('app_client_index') }}">back to list</a>
+  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_client_edit', { id: client.id }) }}" text="Modifier" icon="pencil" />
 
-	<a href="{{ path('app_client_edit', {'id': client.id}) }}">edit</a>
-
-	{{ include('client/_delete_form.html.twig') }}
+  {{ include('client/_delete_form.html.twig') }}
 {% endblock %}

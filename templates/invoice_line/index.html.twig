@@ -19,13 +19,13 @@
                 <td>{{ invoice_line.id }}</td>
                 <td>{{ invoice_line.quantity }}</td>
                 <td>
-                    <a href="{{ path('app_invoice_line_show', {'id': invoice_line.id}) }}">show</a>
-                    <a href="{{ path('app_invoice_line_edit', {'id': invoice_line.id}) }}">edit</a>
+                    
+                    <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_line_edit', {'id': invoice_line.id}) }}" text="Modifier" icon="pencil" />
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="3">no records found</td>
+                <td colspan="3">Aucun résultat trouvé</td>
             </tr>
         {% endfor %}
         </tbody>

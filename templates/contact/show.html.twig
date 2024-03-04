@@ -58,9 +58,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_contact_index') }}">back to list</a>
+<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_contact_index') }}" text="Retour à la liste" icon="rotate-left" />
 
-    <a href="{{ path('app_contact_edit', {'id': contact.id}) }}">edit</a>
+    <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_contact_edit', {'id': contact.id}) }}" text="Modifier" icon="pencil" />
 
     {{ include('contact/_delete_form.html.twig') }}
 {% endblock %}

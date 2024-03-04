@@ -1,38 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}
+  Utilisateur n°{{ user.id }}
+{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+  <h1 class="font-medium text-gray-900 dark:text-gray-400 whitespace-nowrap text-2xl">Utilisateur n°{{ user.id }}</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
-            </tr>
-            <tr>
-                <th>IsVerified</th>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
-            </tr>
-        </tbody>
-    </table>
+  <twig:Table:Table>
+    <tbody>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Id</twig:Table:Header>
+        <twig:Table:Data>{{ user.id }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Email</twig:Table:Header>
+        <twig:Table:Data>{{ user.email }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Roles</twig:Table:Header>
+        <twig:Table:Data>{{ user.roles ? user.roles|json_encode:'' }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Vérifié</twig:Table:Header>
+        <twig:Table:Data>{{ user.isVerified ? 'Oui' : 'Non' }}</twig:Table:Data>
+      </twig:Table:Row>
+    </tbody>
+  </twig:Table:Table>
 
-    <a href="{{ path('app_user_index') }}">back to list</a>
+  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_company_index') }}" text="Retour à la liste" icon="rotate-left" />
 
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
+  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_company_edit', { id: user.id }) }}" text="Modifier" icon="pencil" />
 
-    {{ include('user/_delete_form.html.twig') }}
+  {{ include('user/_delete_form.html.twig') }}
 {% endblock %}

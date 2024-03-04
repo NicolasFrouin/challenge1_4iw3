@@ -7,5 +7,5 @@
 
     {{ include('invoice/_form.html.twig') }}
 
-    <a href="{{ path('app_invoice_index') }}">back to list</a>
+<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_index') }}" text="Retour à la liste" icon="rotate-left" />
 {% endblock %}

@@ -1,49 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-  Invoice
+  Facture n°{{ invoice.id }}
 {% endblock %}
 
 {% block body %}
-  <h1>Invoice</h1>
+  <h1 class="font-medium text-gray-900 dark:text-gray-400 whitespace-nowrap text-2xl">Facture n°{{ invoice.id }}</h1>
 
-  <table class="table">
+  <twig:Table:Table>
     <tbody>
-      <tr>
-        <th>Id</th>
-        <td>Facture n°{{ invoice.id }}</td>
-      </tr>
-      <tr>
-        <th>Complètement payée</th>
-        <td>{{ invoice.paid ? 'Oui' : 'Non' }}</td>
-      </tr>
-      <tr>
-        <th>Montant payé</th>
-        <td>{{ invoice.paidAmount|readnb('€') }}</td>
-      </tr>
-      <tr>
-        <th>Client</th>
-        <td>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Id</twig:Table:Header>
+        <twig:Table:Data>{{ invoice.id }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Complètement payée</twig:Table:Header>
+        <twig:Table:Data>{{ invoice.paid ? 'Oui' : 'Non' }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Montant payé</twig:Table:Header>
+        <twig:Table:Data>{{ invoice.paidAmount|readnb('€') }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Statut</twig:Table:Header>
+        <twig:Table:Data>
+          {% if invoice.status == 1 %}
+            <span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-500 dark:text-green-100">Validé</span>
+          {% elseif invoice.status == 0 %}
+            <span class="px-2 py-1 text-xs font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-500 dark:text-yellow-100">En attente</span>
+          {% elseif invoice.status == 9 %}
+            <span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-500 dark:text-red-100">Refusé</span>
+          {% endif %}
+        </twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Client</twig:Table:Header>
+        <twig:Table:Data>
           {% if invoice.client.firstname is defined %}
             {{ invoice.client.firstname }} {{ invoice.client.lastname }}
           {% endif %}
-        </td>
-      </tr>
-      <tr>
-        <th>Contact</th>
-        <td>
+        </twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Contact</twig:Table:Header>
+        <twig:Table:Data>
           {% if invoice.contact.name is defined %}
             {{ invoice.contact.name }} ({{ invoice.contact.email }})
           {% endif %}
-        </td>
-      </tr>
-      <tr>
-        <th>Total</th>
-        <td>{{ invoice.total|readnb('€') }}</td>
-      </tr>
-      <tr>
-        <th>Lignes de facture</th>
-        <td>
+        </twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Total</twig:Table:Header>
+        <twig:Table:Data>{{ invoice.total|readnb('€') }}</twig:Table:Data>
+      </twig:Table:Row>
+      <twig:Table:Row>
+        <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Lignes de facture</twig:Table:Header>
+        <twig:Table:Data>
           <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
             <twig:Table:Head columns="Quantité, Produit, Prix TTC, Total" />
             <tbody class="h-full">
@@ -61,18 +73,18 @@
               {% endfor %}
             </tbody>
           </table>
-        </td>
-      </tr>
-      {% if invoice.estimate is defined %}
-        <tr>
-          <th>Devis</th>
-          <td>
+        </twig:Table:Data>
+      </twig:Table:Row>
+      {% if invoice.estimate is not empty %}
+        <twig:Table:Row>
+          <twig:Table:Header class="text-center text-xs text-gray-700 uppercase whitespace-nowrap bg-gray-50 dark:bg-gray-700 dark:text-gray-400 {{ class|default('') }}">Devis</twig:Table:Header>
+          <twig:Table:Data>
             <a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_estimate_show', { id: invoice.estimate.id }) }}">Devis n°{{ invoice.estimate.id }}</a>
-          </td>
-        </tr>
+          </twig:Table:Data>
+        </twig:Table:Row>
       {% endif %}
     </tbody>
-  </table>
+  </twig:Table:Table>
 
   <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_index') }}" text="Retour à la liste" icon="rotate-left" />
 

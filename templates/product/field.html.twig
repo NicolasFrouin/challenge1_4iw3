@@ -1,0 +1,11 @@
+{# templates/form/field.html.twig #}
+
+{% block form_row %}
+<div class="mb-3">
+    {{ form_label(form) }}
+    <div class="mt-1">
+        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+    </div>
+</div>
+{% endblock %}

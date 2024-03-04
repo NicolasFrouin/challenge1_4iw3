@@ -2,6 +2,7 @@
 	<div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
 		<ul class="space-y-2 font-medium">
 			<twig:Nav:NavItem text="Tableau de bord" active="app_home" icon="house"/>
+			<twig:Nav:NavItem text="Utilisateurs" path="{{ path('app_user_index') }}" active="app_user" icon="user"/>
 			<twig:Nav:NavItem text="Produits" path="{{ path('product_index') }}" active="app_product" icon="bag-shopping"/>
 			<twig:Nav:NavItem text="Sociétés" path="{{ path('app_company_index') }}" active="app_company" icon="building" roles="ROLE_ADMIN"/>
 			<twig:Nav:NavItem text="Clients" path="{{ path('app_client_index') }}" active="app_client" icon="users"/>

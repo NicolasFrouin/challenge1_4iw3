@@ -37,6 +37,9 @@ class ClientController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($this->getUser()->getRoles()[0] != "ROLE_ADMIN")
+                $client->setIdCompany($this->getUser()->getIdCompany());
+
             $entityManager->persist($client);
             $entityManager->flush();
 

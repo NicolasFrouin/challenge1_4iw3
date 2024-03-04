@@ -71,6 +71,19 @@ class EstimateType extends AbstractType
         );
 
         $builder->setAction($options["action"]);
+
+        if ($this->security->getUser()->getRoles()[0] === 'ROLE_ADMIN') {
+            $builder->add(
+                'company',
+                EntityType::class,
+                [
+                    'class' => Company::class,
+                    'choice_label' => 'name',
+                    'label' => 'Entreprise',
+                    'attr' => ['placeholder' => 'Entreprise'],
+                ]
+            );
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void

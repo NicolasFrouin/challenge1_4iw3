@@ -18,9 +18,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_invoice_line_index') }}">back to list</a>
+<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_line_index') }}" text="Retour à la liste" icon="rotate-left" />
 
-    <a href="{{ path('app_invoice_line_edit', {'id': invoice_line.id}) }}">edit</a>
+    <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_invoice_line_edit', {'id': invoice_line.id}) }}" text="Modifier" icon="pencil" />
 
     {{ include('invoice_line/_delete_form.html.twig') }}
 {% endblock %}

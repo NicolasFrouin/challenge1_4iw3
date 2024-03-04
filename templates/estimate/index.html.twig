@@ -25,7 +25,7 @@
                 <span class="px-2 py-1 text-xs font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-500 dark:text-green-100">Validé</span>
               {% elseif estimate.status == 0 %}
                 <span class="px-2 py-1 text-xs font-semibold leading-tight text-yellow-700 bg-yellow-100 rounded-full dark:bg-yellow-500 dark:text-yellow-100">En attente</span>
-              {% elseif condition %}
+              {% elseif estimate.status == 9 %}
                 <span class="px-2 py-1 text-xs font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:bg-red-500 dark:text-red-100">Refusé</span>
               {% endif %}
             </twig:Table:Data>

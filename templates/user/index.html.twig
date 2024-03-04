@@ -1,41 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User index{% endblock %}
+{% block title %}
+  Liste des utilisateurs
+{% endblock %}
 
 {% block body %}
-    <h1>User index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>Password</th>
-                <th>IsVerified</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
+  <div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+    <table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+      <caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+        Liste des utilisateurs<twig:Button href="{{ path('app_user_new') }}" text="Créer un nouvel utilisateur" icon="plus" class="text-xs mt-4" />
+      </caption>
+      <twig:Table:Head columns="ID, Email, Roles, Vérifié, Créé le, Modifié le, Actions" />
+      <tbody class="h-full">
         {% for user in users %}
-            <tr>
-                <td>{{ user.id }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
-                <td>
-                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a>
-                </td>
-            </tr>
+          <twig:Table:Row>
+            <twig:Table:Data important="true">
+              <a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_user_show', { id: user.id }) }}">Utilisateur n°{{ user.id }}</a>
+            </twig:Table:Data>
+            <twig:Table:Data>{{ user.email }}</twig:Table:Data>
+            <twig:Table:Data>{{ user.roles ? user.roles|json_encode:'' }}</twig:Table:Data>
+            <twig:Table:Data>{{ user.isVerified ? 'Oui' : 'Non' }}</twig:Table:Data>
+            <twig:Table:Data>{{ user.createdAt is defined ? user.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+            <twig:Table:Data>{{ user.updatedAt is defined ? user.updatedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+            <twig:Table:Data>
+              <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_user_edit', { id: user.id }) }}" text="Modifier" icon="pencil" />
+            </twig:Table:Data>
+          </twig:Table:Row>
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
+          <twig:Table:Row>
+            <twig:Table:Data colspan="99">Aucun utilisateur enregistrée</twig:Table:Data>
+          </twig:Table:Row>
         {% endfor %}
-        </tbody>
+      </tbody>
     </table>
-
-    <a href="{{ path('app_user_new') }}">Create new</a>
+  </div>
 {% endblock %}
