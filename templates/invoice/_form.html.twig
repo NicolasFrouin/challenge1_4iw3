@@ -1,6 +1,28 @@
-{{ form_start(form, { attr: { id: 'invoice_form' } }) }}
-{{ form_widget(form) }}
-<button class="btn">{{ button_label|default('Save') }}</button>
+{# templates/your_template.html.twig #}
+
+{% form_theme form 'product/field.html.twig' %}
+{{ form_start(form, { attr: { class: 'flex flex-col items-center justify-center space-y-4 bg-blue-900 mb-5 rounded-lg p-6' } }) }}
+<h1 class="inline-flex items-center justify-center px-2 ms-3 text-xl font-medium text-gray-800 dark:text-white mb-5">Création d'une nouvelle facture</h1>
+{% for field in form %}
+  {% if 'checkbox' not in field.vars.block_prefixes %}
+    {# Pour tous les champs sauf le checkbox #}
+    <div class="relative w-full md:w-96">
+      <!-- Ajustez la largeur ici -->
+      {{ form_widget(field, { attr: { class: 'form-input w-full px-4 py-2 mt-1 mb-2 rounded-md text-sm border-transparent focus:border-transparent focus:ring-0' } }) }}
+      <label for="{{ field.vars.id }}" class="absolute left-2 -top-6 text-white text-sm">{{ field.vars.label }}</label>
+    </div>
+  {% else %}
+    {# Pour le champ de type checkbox #}
+    <div class="relative flex items-center">
+      <!-- Le checkbox conserve sa taille par défaut -->
+      {{ form_widget(field) }}
+      <label for="{{ field.vars.id }}" class="ml-2 text-white text-sm">{{ field.vars.label }}</label>
+    </div>
+  {% endif %}
+{% endfor %}
+
+<button type="submit" class="w-full mt-4 md:w-96 bg-blue-700 text-white py-2 rounded-lg transition duration-300 ease-in-out hover:bg-blue-800 focus:outline-none">{{ button_label|default("S'enregistrer") }}</button>
+
 {{ form_end(form) }}
 
 <script>
