@@ -1,63 +1,46 @@
 {% extends 'base-mini.html.twig' %}
 
 {% block title %}
-	Connectez-vous !
+  Connectez-vous !
 {% endblock %}
 
 {% block body %}
-    <div class="flex h-screen bg-blue-50">
-        <!-- Left Side -->
-        <div class="w-full md:w-1/3 flex flex-col justify-center items-center bg-white dark:bg-slate-700 px-6">
-            <h1 class="text-5xl font-bold mb-10 text-white">Bienvenue</h1>
-            <form method="post" class="w-full max-w-sm">
-                <div class="mb-4">
-                    <input class="form-control block w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="email" placeholder="Email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus>
-                </div>
-                <div class="mb-4">
-                    <input class="form-control block w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="password" placeholder="Mot de passe" name="password" id="inputPassword" autocomplete="current-password" required>
-                </div>
-                <div class="flex items-center justify-between mb-6">
-                    <div class="form-group form-check">
-                        <input type="checkbox" class="form-check-input h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" id="rememberMe">
-                        <label class="form-check-label inline-block text-white" for="rememberMe">
-                            Remember me
-                        </label>
-                    </div>
-                    <a href="#" class="text-blue-600 hover:text-blue-700 focus:text-blue-700 transition duration-200 ease-in-out">
-                        Mot de passe oublié?
-                    </a>
-                </div>
-                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-               {% if app.user %}
-            <small class="my-4 text-base">
-                Vous êtes connecté en tant que
-                <span class="text-gray-900 dark:text-gray-200 italic bg-slate-200 dark:bg-slate-500 px-1 rounded">
-                    {{ app.user.userIdentifier }}
-                </span>
-                <br>
-                <a href="{{ path('app_logout') }}" class="text-blue-500 dark:text-blue-400 underline">Déconnexion</a>
-            </small>
+  <div class="flex h-screen bg-blue-50">
+    <!-- Left Side -->
+    <div class="w-full md:w-1/3 flex flex-col justify-center items-center bg-white dark:bg-slate-700 px-6 text-gray-800 dark:text-slate-200">
+      <h1 class="text-5xl font-bold mb-10">Bienvenue</h1>
+      <form method="post" class="w-full max-w-sm">
+        <div class="mb-4">
+          <input class="form-control block w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="email" placeholder="Email" value="{{ last_username }}" name="email" id="inputEmail" autocomplete="email" required autofocus />
+        </div>
+        <div class="mb-4">
+          <input class="form-control block w-full px-3 py-2 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none" type="password" placeholder="Mot de passe" name="password" id="inputPassword" autocomplete="current-password" required />
+        </div>
+        <div class="flex items-center justify-between mb-6">
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" id="rememberMe" />
+            <label class="form-check-label inline-block" for="rememberMe">Se souvenir de moi</label>
+          </div>
+        </div>
+        <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" />
+        {% if app.user %}
+          <small class="my-4 text-base">
+            Vous êtes connecté en tant que
+            <span class="text-gray-900 dark:text-gray-200 italic bg-slate-200 dark:bg-slate-500 px-1 rounded">{{ app.user.userIdentifier }}</span>
+            <br />
+            <a href="{{ path('app_logout') }}" class="text-blue-500 dark:text-blue-400 underline">Déconnexion</a>
+          </small>
         {% endif %}
-                <button class="w-full px-6 py-2 border-2 bg-blue-500  border-blue-500 font-medium text-xs leading-tight uppercase rounded text-white hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" type="submit">
-                    Se connecter
-                </button>
-                <p class="text-sm font-semibold mt-2 pt-1 mb-0 text-center text-white">
-                    Pas de compte ?
-                    <a href="{{ path('app_register') }}" class="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out">
-                        S'enregistrer
-                    </a>
-                </p>
-            </form>
-        </div>
-        <!-- Right Side -->
-        <div class="hidden md:block w-2/3 bg-cover bg-red-700" style="background-image: url('/path-to-your-image.jpg')">
-
-            <div class="flex h-full items-center justify-center">
-                <div class="text-white text-center">
-                    <h2 class="text-4xl mb-2">Texte pour donner envie ici</h2>
-                    <p class="mb-0">Une phrase accrocheuse et descriptive</p>
-                </div>
-            </div>
-        </div>
+        <button class="w-full px-6 py-2 border-2 bg-blue-500 border-blue-500 font-medium text-xs leading-tight uppercase rounded text-white hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out" type="submit">Se connecter</button>
+        <p class="text-sm font-semibold mt-2 pt-1 mb-0 text-center text-white">
+          Pas de compte ?
+          <a href="{{ path('app_register') }}" class="text-blue-400 hover:text-blue-500 focus:text-blue-500 transition duration-200 ease-in-out">S'enregistrer</a>
+        </p>
+      </form>
     </div>
+    <!-- Right Side -->
+    <div class="hidden md:block w-2/3">
+      <img src="{{ asset('build/images/login-image.png') }}" class="h-full object-cover" alt="Image de bienvenue" />
+    </div>
+  </div>
 {% endblock %}

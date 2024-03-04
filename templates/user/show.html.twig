@@ -30,7 +30,9 @@
 
   <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_company_index') }}" text="Retour à la liste" icon="rotate-left" />
 
-  <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_company_edit', { id: user.id }) }}" text="Modifier" icon="pencil" />
+  {% if is_granted('ROLE_ADMIN') %}
+    <twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_company_edit', { id: user.id }) }}" text="Modifier" icon="pencil" />
 
-  {{ include('user/_delete_form.html.twig') }}
+    {{ include('user/_delete_form.html.twig') }}
+  {% endif %}
 {% endblock %}
