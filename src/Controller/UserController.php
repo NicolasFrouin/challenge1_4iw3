@@ -93,13 +93,23 @@ class UserController extends AbstractController
 
     #[Route('/info', name: 'app_user_setting', methods: ['GET'])]
     public function setting(): Response
-    {
-        return $this->render('user/info.html.twig', [
-            'user' => $this->getUser(),
-            'email' => $this->getEmail(),
-            'role' => $this->getRole(),
-            'company' => $this->getIdCompany(),
-        ]);
+{
+    $user = $this->getUser();
+    
+    // Vérification de l'objet User
+    if (!$user) {
+        throw new \LogicException('Utilisateur non trouvé.');
     }
+    
+    return $this->render('user/settings.html.twig', [
+        'user' => $user,
+        'email' => $user->getEmail(),
+        'role' => $user->getRoles(), // Notez que getRoles() renvoie un tableau
+        'company' => $user->getIdCompany(),
+    ]);
+}
+
+    
+
 
 }
