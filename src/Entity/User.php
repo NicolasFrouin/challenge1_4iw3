@@ -68,6 +68,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+    public function getname(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setname(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 
     /**
      * A visual identifier that represents this user.

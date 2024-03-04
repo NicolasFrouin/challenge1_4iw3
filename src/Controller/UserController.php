@@ -54,7 +54,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'app_user_show', methods: ['GET'], requirements: ['id' => '/d+']) ]
     public function show(User $user): Response
     {
         return $this->render('user/show.html.twig', [
@@ -91,25 +91,13 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/info', name: 'app_user_setting', methods: ['GET'])]
-    public function setting(): Response
-{
-    $user = $this->getUser();
-    
-    // Vérification de l'objet User
-    if (!$user) {
-        throw new \LogicException('Utilisateur non trouvé.');
+    #[Route('/settings', name: 'app_user_settings', methods: ['GET'])]
+    public function settings(): Response
+    {
+        return $this->render('user/settings.html.twig', [
+            'user' => $this->getUser()
+           
+        ]);
     }
-    
-    return $this->render('user/settings.html.twig', [
-        'user' => $user,
-        'email' => $user->getEmail(),
-        'role' => $user->getRoles(), // Notez que getRoles() renvoie un tableau
-        'company' => $user->getIdCompany(),
-    ]);
-}
-
-    
-
 
 }
