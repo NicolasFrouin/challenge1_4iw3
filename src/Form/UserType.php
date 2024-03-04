@@ -16,6 +16,8 @@ class UserType extends AbstractType
         $builder
             ->add('email')
             ->add('roles')
+            ->add('fistname')
+            ->add('lastname')
             ->add('password')
             ->add('isVerified')
             ->add('idCompany', EntityType::class, [

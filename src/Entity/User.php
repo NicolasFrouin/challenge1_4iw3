@@ -43,6 +43,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $idCompany = null;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $firstname;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private ?string $lastname;
+
     public function __construct()
     {
     }
@@ -57,6 +63,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->id;
     }
 
+    public function getFirstname(): ?string
+    {
+        return $this->Firstname;
+    }
+
+    public function setFistname(?string $fisrtname): self
+    {
+        $this->firstname = $firstname;
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+        return $this;
+    }
+
     public function getEmail(): ?string
     {
         return $this->email;
@@ -65,17 +93,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
-
-        return $this;
-    }
-    public function getname(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setname(string $name): static
-    {
-        $this->name = $name;
 
         return $this;
     }
