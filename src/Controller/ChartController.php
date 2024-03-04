@@ -15,13 +15,41 @@ class ChartController extends AbstractController
     {
         $chart = $chartBuilder->createChart(Chart::TYPE_LINE);
         $chart->setData([
-            'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            'labels' => ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
             'datasets' => [
                 [
-                    'label' => 'My First dataset',
+                    'label' => 'Graphique du projet',
                     'backgroundColor' => 'rgb(255, 99, 132)',
                     'borderColor' => 'rgb(255, 99, 132)',
-                    'data' => [0, 10, 5, 2, 20, 30, 45],
+                    'data' => [0, 10, 5, 2, 20, 30, 45, 48, 52, 60, 72, 75],
+                ],
+            ],
+        ]);
+
+        $chart->setOptions([
+            'scales' => [
+                'x' => [
+                    'ticks' => [
+                        'color' => '#FFFFFF', // Définit la couleur des labels de l'axe X en blanc
+                    ],
+                    'grid' => [
+                        'color' => 'rgba(255, 255, 255, 0.1)', // Optionnel: couleur des lignes de grille (avec transparence)
+                    ]
+                ],
+                'y' => [
+                    'ticks' => [
+                        'color' => '#FFFFFF', // Définit la couleur des labels de l'axe Y en blanc
+                    ],
+                    'grid' => [
+                        'color' => 'rgba(255, 255, 255, 0.1)', // Optionnel: couleur des lignes de grille (avec transparence)
+                    ]
+                ],
+            ],
+            'plugins' => [
+                'legend' => [
+                    'labels' => [
+                        'color' => '#FFFFFF', // Définit la couleur des labels de la légende en blanc
+                    ],
                 ],
             ],
         ]);

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <div class="flex h-screen bg-gray-900 text-gray-200">
+    <div class="flex bg-gray-900 text-gray-200 h-full">
         <!-- Content -->
         <div class="flex-1 flex flex-col overflow-hidden">
             <!-- Main Header -->
@@ -32,10 +32,7 @@
                 <div class="p-4">
                     <div class="bg-blue-800 rounded-xl p-4 shadow-lg">
                         <p class="text-xs md:text-sm text-blue-300 mb-2">Sales Over Time</p>
-                        <div class="h-64">
-                            <!-- Placeholder for Chart -->
-                            <!-- Here you would typically embed a chart library component -->
-                        </div>
+                        {{ render(path("app_chart")) }}
                     </div>
                 </div>
 
