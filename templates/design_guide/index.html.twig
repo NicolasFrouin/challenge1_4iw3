@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Design Guide{% endblock %}
+
+{% block body %}
+    <div class="relative overflow-x-auto shadow-md scrollbar-thin scrollbar-track-slate-50 dark:scrollbar-track-slate-300 scrollbar-thumb-slate-300 dark:scrollbar-thumb-slate-500 scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
+		<table class="w-full text-sm text-left rtl:text-right text-gray-600 dark:text-gray-300">
+			<caption class="py-5 px-3 text-xl font-semibold text-left rtl:text-right text-gray-900 bg-white dark:text-white dark:bg-gray-800">
+				Table
+				<twig:Button href="{{ path('app_company_new') }}" text="Bouton Création" icon="plus" class="text-xs mt-4"/>
+			</caption>
+			<twig:Table:Head columns="Nom, Prenom, Email, Adresse, Téléphone, Créer le, Modifier le"/>
+			<tbody class="h-full">
+				{% for company in companies %}
+					<twig:Table:Row>
+						<twig:Table:Data important="{{true}}">
+							<a class="text-blue-500 dark:text-blue-300 underline" href="{{ path('app_company_show', {'id': company.id}) }}">Nom + Edition</a>
+						</twig:Table:Data>
+						<twig:Table:Data>{{ company.description }}</twig:Table:Data>
+						<twig:Table:Data>{{ company.siret }}</twig:Table:Data>
+						<twig:Table:Data>{{ company.premium ? 'Oui' : 'Non' }}</twig:Table:Data>
+						<twig:Table:Data>{{ company.createdAt ? company.createdAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>{{ company.updatedAt ? company.updatedAt|date('Y-m-d H:i:s') : '' }}</twig:Table:Data>
+						<twig:Table:Data>
+							<twig:Button class="bg-lime-500 dark:bg-lime-600" href="{{ path('app_company_edit', {'id': company.id}) }}" text="Bouton Modification" icon="pencil"/>
+						</twig:Table:Data>
+					</twig:Table:Row>
+				{% else %}
+					<twig:Table:Row>
+						<twig:Table:Data colspan="99">Aucune Entreprise enregistré</twig:Table:Data>
+					</twig:Table:Row>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
